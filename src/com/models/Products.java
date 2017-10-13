@@ -1,16 +1,16 @@
-package application;
+package com.models;
 
-public class AvailableProducts {
+public class Products {
 	private String id;
 	private String productName;
 	private String description;
 	private int amount;
 	private int quantityAvailable;
 	
-	public AvailableProducts(){
+	public Products(){
 	}
 	
-	public AvailableProducts(String id, String productName, int amount, int quantity){
+	public Products(String id, String productName, int amount, int quantity){
 		this.setId(id);
 		this.setProductName(productName);
 		this.setAmount(amount);

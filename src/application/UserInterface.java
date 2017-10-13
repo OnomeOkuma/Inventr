@@ -1,5 +1,7 @@
 package application;
 
+import com.models.Products;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Tab;
@@ -11,8 +13,8 @@ public class UserInterface {
 	 Tab salesTab;
 	 Tab purchaseTab;
 	 Tab productTab;
-	 private TableView<AvailableProducts> productView;
-	 ObservableList<AvailableProducts> availableProducts;
+	 private TableView<Products> productView;
+	 ObservableList<Products> availableProducts;
 	 
 	@SuppressWarnings("unchecked")
 	public UserInterface(){
@@ -26,21 +28,52 @@ public class UserInterface {
 		
 		this.productTab = new Tab();
 		this.availableProducts = FXCollections.observableArrayList();
-		this.availableProducts.add(new AvailableProducts("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new AvailableProducts("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new AvailableProducts("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new AvailableProducts("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new AvailableProducts("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new AvailableProducts("llll", "Maxwell", 200, 8));
-		this.productView = new TableView<AvailableProducts> (this.availableProducts);
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
 		
-		TableColumn<AvailableProducts,String> idCol = new TableColumn<AvailableProducts,String>("id");
+		this.productView = new TableView<Products> (this.availableProducts);
+		
+		TableColumn<Products,String> idCol = new TableColumn<Products,String>("id");
 		idCol.setText("ID");
-		idCol.setCellValueFactory(new PropertyValueFactory<AvailableProducts, String>("id"));
+		idCol.setCellValueFactory(new PropertyValueFactory<Products, String>("id"));
 		
-		TableColumn<AvailableProducts,String> nameCol = new TableColumn<AvailableProducts,String>("Product Name");
+		TableColumn<Products,String> nameCol = new TableColumn<Products,String>("Product Name");
 		nameCol.setText("Product Name");
-		nameCol.setCellValueFactory(new PropertyValueFactory<AvailableProducts, String>("productName"));
+		nameCol.setCellValueFactory(new PropertyValueFactory<Products, String>("productName"));
 		this.productView.getColumns().setAll(idCol, nameCol);
 		
 		this.productTab.setContent(this.productView);
