@@ -3,5 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/onome/Desktop/hibernate-release-5.2.11.Final/lib/required/hibernate-core-5.2.11.Final.jar"/>
+	<classpathentry kind="lib" path="/home/onome/Desktop/hibernate-release-5.2.11.Final/lib/required/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="/home/onome/sqlite-jdbc-3.20.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

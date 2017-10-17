@@ -1,83 +1,160 @@
 package application;
 
-import com.models.Products;
+import java.sql.Timestamp;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import models.CurrentProductList;
+import models.ProductPurchased;
+import models.ProductSold;
 
 public class UserInterface {
-	 Tab salesTab;
-	 Tab purchaseTab;
-	 Tab productTab;
-	 private TableView<Products> productView;
-	 ObservableList<Products> availableProducts;
+	 Tab productSoldTab;
+	 Tab productPurchaseTab;
+	 Tab currentProductListTab;
 	 
-	@SuppressWarnings("unchecked")
+	 private TableView<CurrentProductList> productAvailableView;							
+	 private TableView<ProductPurchased> productPurchasedView;
+	 private TableView<ProductSold> productSoldView;
+	 
 	public UserInterface(){
-		this.purchaseTab = new Tab();
-		this.purchaseTab.setText(" PURCHASES ");
-		this.purchaseTab.setClosable(false);
+		this.currentProductListTab = new Tab();
+		this.currentProductListTab.setText("Products Available");
+		this.currentProductListTab.setClosable(false);
+		CurrentProductList.productAvailable = FXCollections.synchronizedObservableList(FXCollections.observableArrayList());
+		this.productAvailableView = new TableView<CurrentProductList> (CurrentProductList.productAvailable);
 		
-		this.salesTab = new Tab();
-		this.salesTab.setText(" SALES ");
-		this.salesTab.setClosable(false);
 		
-		this.productTab = new Tab();
-		this.availableProducts = FXCollections.observableArrayList();
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
-		this.availableProducts.add(new Products("llll", "Maxwell", 200, 8));
+		this.productPurchaseTab = new Tab();
+		this.productPurchaseTab.setText(" Purchases ");
+		this.productPurchaseTab.setClosable(false);
+		ProductPurchased.productPurchased = FXCollections.synchronizedObservableList(FXCollections.observableArrayList());
+		this.productPurchasedView = new TableView<ProductPurchased>(ProductPurchased.productPurchased);
 		
-		this.productView = new TableView<Products> (this.availableProducts);
 		
-		TableColumn<Products,String> idCol = new TableColumn<Products,String>("id");
+		this.productSoldTab = new Tab();
+		this.productSoldTab.setText(" Sales ");
+		this.productSoldTab.setClosable(false);
+		ProductSold.productsSold = FXCollections.synchronizedObservableList(FXCollections.observableArrayList());
+		this.productSoldView = new TableView<ProductSold>(ProductSold.productsSold);
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void initializeProductList(){
+		TableColumn<CurrentProductList,String> idCol = new TableColumn<CurrentProductList,String>();
 		idCol.setText("ID");
-		idCol.setCellValueFactory(new PropertyValueFactory<Products, String>("id"));
+		idCol.setEditable(false);
+		idCol.setResizable(false);
+		idCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("itemCode"));
+
 		
-		TableColumn<Products,String> nameCol = new TableColumn<Products,String>("Product Name");
-		nameCol.setText("Product Name");
-		nameCol.setCellValueFactory(new PropertyValueFactory<Products, String>("productName"));
-		this.productView.getColumns().setAll(idCol, nameCol);
+		TableColumn<CurrentProductList,String> nameCol = new TableColumn<CurrentProductList,String>();
+		nameCol.setText("Name");
+		nameCol.setEditable(false);
+		nameCol.setResizable(false);
+		nameCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("productName"));
 		
-		this.productTab.setContent(this.productView);
-		this.productTab.setText("AVAILABLE PRODUCTS");
-		this.productTab.setClosable(false);
+		TableColumn<CurrentProductList,String> descriptionCol = new TableColumn<CurrentProductList,String>();
+		descriptionCol.setText("Description");
+		descriptionCol.setPrefWidth(300);
+		descriptionCol.setResizable(false);
+		descriptionCol.setEditable(false);
+		descriptionCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("description"));
+		
+		TableColumn<CurrentProductList,Integer> priceCol = new TableColumn<CurrentProductList,Integer>();
+		priceCol.setText("Price");
+		priceCol.setEditable(false);
+		priceCol.setResizable(false);
+		priceCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, Integer>("price"));
+		
+		TableColumn<CurrentProductList,Integer> availableCol = new TableColumn<CurrentProductList,Integer>();
+		availableCol.setText("Total Available");
+		availableCol.setEditable(false);
+		availableCol.setResizable(false);
+		availableCol.setPrefWidth(200);
+		availableCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, Integer>("numberAvailable"));
+		
+		this.productAvailableView.getColumns().setAll(idCol, nameCol, descriptionCol, priceCol, availableCol);
+		this.currentProductListTab.setContent(this.productAvailableView);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void initializePurchaseHistory(){
+		TableColumn<ProductPurchased,String> idCol = new TableColumn<ProductPurchased,String>();
+		idCol.setText("ID");
+		idCol.setEditable(false);
+		idCol.setResizable(false);
+		idCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, String>("itemCode"));
+		
+		TableColumn<ProductPurchased,String> nameCol = new TableColumn<ProductPurchased,String>();
+		nameCol.setText("Name");
+		nameCol.setEditable(false);
+		nameCol.setResizable(false);
+		nameCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, String>("productName"));
+		
+		TableColumn<ProductPurchased,Integer> purchasesMadeCol = new TableColumn<ProductPurchased,Integer>();
+		purchasesMadeCol.setText("Purchases Made");
+		purchasesMadeCol.setEditable(false);
+		purchasesMadeCol.setPrefWidth(200);
+		purchasesMadeCol.setResizable(false);
+		purchasesMadeCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, Integer>("totalPurchasesMade"));
+		
+		TableColumn<ProductPurchased,Integer> availableCol = new TableColumn<ProductPurchased,Integer>();
+		availableCol.setText("Available");
+		availableCol.setEditable(false);
+		availableCol.setPrefWidth(200);
+		availableCol.setResizable(false);
+		availableCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, Integer>("numberAvailable"));
+		
+		TableColumn<ProductPurchased, Timestamp> timeCol = new TableColumn<ProductPurchased,Timestamp>();
+		timeCol.setText("Time Stamp");
+		timeCol.setEditable(false);
+		timeCol.setPrefWidth(150);
+		timeCol.setResizable(false);
+		timeCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, Timestamp>("timestamp"));
+		this.productPurchasedView.getColumns().addAll(idCol, nameCol, purchasesMadeCol, availableCol, timeCol );
+		this.productPurchaseTab.setContent(this.productPurchasedView);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void initializeSalesHistory(){
+		TableColumn<ProductSold,String> idCol = new TableColumn<ProductSold,String>();
+		idCol.setText("ID");
+		idCol.setEditable(false);
+		idCol.setResizable(false);
+		idCol.setCellValueFactory(new PropertyValueFactory<ProductSold, String>("itemCode"));
+		
+		TableColumn<ProductSold,String> nameCol = new TableColumn<ProductSold,String>();
+		nameCol.setText("Name");
+		nameCol.setEditable(false);
+		nameCol.setResizable(false);
+		nameCol.setCellValueFactory(new PropertyValueFactory<ProductSold, String>("productName"));
+		
+		TableColumn<ProductSold,Integer> salesMadeCol = new TableColumn<ProductSold,Integer>();
+		salesMadeCol.setText("Sale Made");
+		salesMadeCol.setEditable(false);
+		salesMadeCol.setPrefWidth(200);
+		salesMadeCol.setResizable(false);
+		salesMadeCol.setCellValueFactory(new PropertyValueFactory<ProductSold, Integer>("totalSalesMade"));
+		
+		TableColumn<ProductSold,Integer> availableCol = new TableColumn<ProductSold,Integer>();
+		availableCol.setText("Available");
+		availableCol.setEditable(false);
+		availableCol.setPrefWidth(200);
+		availableCol.setResizable(false);
+		availableCol.setCellValueFactory(new PropertyValueFactory<ProductSold, Integer>("numberAvailable"));
+		
+		TableColumn<ProductSold, Timestamp> timeCol = new TableColumn<ProductSold,Timestamp>();
+		timeCol.setText("Time Stamp");
+		timeCol.setEditable(false);
+		timeCol.setPrefWidth(150);
+		timeCol.setResizable(false);
+		timeCol.setCellValueFactory(new PropertyValueFactory<ProductSold, Timestamp>("timestamp"));
+		this.productSoldView.getColumns().addAll(idCol, nameCol, salesMadeCol, availableCol, timeCol );
+		this.productSoldTab.setContent(this.productSoldView);
 	}
 }

@@ -1,5 +1,6 @@
 package application;
-	
+
+
 import javafx.application.Application;
 import javafx.geometry.Side;
 import javafx.stage.Stage;
@@ -19,6 +20,9 @@ public class Main extends Application {
 			root.setPrefSize(950, 600);
 			
 			UserInterface ui = new UserInterface();
+			ui.initializeProductList();
+			ui.initializePurchaseHistory();
+			ui.initializeSalesHistory();
 			MenuBar menubar = new MenuBar();
 			menubar.setPrefWidth(950);
 
@@ -32,7 +36,7 @@ public class Main extends Application {
 			tabpane.setPrefHeight(680);
 			tabpane.setPrefWidth(950);
 			tabpane.relocate(0, 25.5);
-			tabpane.getTabs().addAll(ui.productTab, ui.salesTab, ui.purchaseTab);
+			tabpane.getTabs().addAll(ui.currentProductListTab, ui.productSoldTab, ui.productPurchaseTab);
 			root.getChildren().add(tabpane);
 			root.getChildren().add(menubar);
 			Scene scene = new Scene(root,950,700);
