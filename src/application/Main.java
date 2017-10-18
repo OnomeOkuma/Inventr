@@ -19,6 +19,7 @@ public class Main extends Application {
 			Pane root = new Pane();
 			root.setPrefSize(950, 600);
 			
+			
 			UserInterface ui = new UserInterface();
 			ui.initializeProductList();
 			ui.initializePurchaseHistory();

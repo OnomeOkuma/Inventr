@@ -1,20 +1,30 @@
+/*
+ * This class models the purchase history of the organization. 
+ */
+
 package models;
 
 import java.sql.Timestamp;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+
 
 import javafx.collections.ObservableList;
 
 @Entity
 public class ProductPurchased extends Product  {
+	
+	// Properties unique to purchase history.
 	private Timestamp timestamp;
 	private int totalPurchasesMade;
+	
+	// ObservableList used by the associated Table.
 	public static ObservableList<ProductPurchased> productPurchased;
+	
+	
 	public ProductPurchased(){
 	}
 	
-	@Id
+	// Getter and Setter methods used by the Hibernate library.
 	public Timestamp getTimestamp() {
 		return this.timestamp;
 	}
@@ -27,7 +37,7 @@ public class ProductPurchased extends Product  {
 		this.timestamp = timestamp;
 	}
 
-	public void setTotatlPurchasesMade(int totalPurchasesMade) {
+	public void setTotalPurchasesMade(int totalPurchasesMade) {
 		this.totalPurchasesMade = totalPurchasesMade;
 	}
 }

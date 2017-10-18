@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import models.CurrentProductList;
 import models.ProductPurchased;
 import models.ProductSold;
+import util.DataAccess;
 
 public class UserInterface {
 	 Tab productSoldTab;
@@ -19,14 +20,16 @@ public class UserInterface {
 	 private TableView<CurrentProductList> productAvailableView;							
 	 private TableView<ProductPurchased> productPurchasedView;
 	 private TableView<ProductSold> productSoldView;
+	 public static DataAccess dataaccess;
 	 
 	public UserInterface(){
 		this.currentProductListTab = new Tab();
-		this.currentProductListTab.setText("Products Available");
+		this.currentProductListTab.setText("Product List");
 		this.currentProductListTab.setClosable(false);
 		CurrentProductList.productAvailable = FXCollections.synchronizedObservableList(FXCollections.observableArrayList());
 		this.productAvailableView = new TableView<CurrentProductList> (CurrentProductList.productAvailable);
 		
+		dataaccess = new DataAccess();
 		
 		this.productPurchaseTab = new Tab();
 		this.productPurchaseTab.setText(" Purchases ");
