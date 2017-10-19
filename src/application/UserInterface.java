@@ -3,10 +3,13 @@ package application;
 import java.sql.Timestamp;
 
 import javafx.collections.FXCollections;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import models.CurrentProductList;
 import models.ProductPurchased;
 import models.ProductSold;
@@ -30,7 +33,7 @@ public class UserInterface {
 		this.productAvailableView = new TableView<CurrentProductList> (CurrentProductList.productAvailable);
 		
 		dataaccess = new DataAccess();
-		
+
 		this.productPurchaseTab = new Tab();
 		this.productPurchaseTab.setText(" Purchases ");
 		this.productPurchaseTab.setClosable(false);
@@ -82,7 +85,26 @@ public class UserInterface {
 		availableCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, Integer>("numberAvailable"));
 		
 		this.productAvailableView.getColumns().setAll(idCol, nameCol, descriptionCol, priceCol, availableCol);
-		this.currentProductListTab.setContent(this.productAvailableView);
+		
+		Button sales = new Button("Sell");
+		sales.setPrefSize(80, 20);
+		sales.relocate(200, 25);
+		sales.setOnAction(e -> {
+
+		});
+		
+		Button purchases = new Button("Buy");
+		purchases.setPrefSize(80, 20);
+		purchases.relocate(650, 25);
+		
+		Pane buttonLayout = new Pane();
+		buttonLayout.setPrefSize(950, 70);
+		buttonLayout.getChildren().addAll(sales, purchases);
+		
+		BorderPane layout = new BorderPane(this.productAvailableView);
+		layout.setBottom(buttonLayout);
+		
+		this.currentProductListTab.setContent(layout);
 	}
 	
 	@SuppressWarnings("unchecked")

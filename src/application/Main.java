@@ -31,6 +31,7 @@ public class Main extends Application {
 			Menu user = new Menu("User");
 			Menu help = new Menu("Help");
 			menubar.getMenus().addAll(user, file, help);
+		
 			
 			TabPane tabpane = new TabPane();
 			tabpane.setSide(Side.BOTTOM);
