@@ -10,10 +10,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import models.CurrentProductList;
 import models.ProductPurchased;
 import models.ProductSold;
 import util.DataAccess;
+import util.TransactionHandler;
 
 public class UserInterface {
 	 Tab productSoldTab;
@@ -24,6 +26,8 @@ public class UserInterface {
 	 private TableView<ProductPurchased> productPurchasedView;
 	 private TableView<ProductSold> productSoldView;
 	 public static DataAccess dataaccess;
+	 Stage stage;
+	 TransactionHandler tran;
 	 
 	public UserInterface(){
 		this.currentProductListTab = new Tab();
@@ -33,7 +37,8 @@ public class UserInterface {
 		this.productAvailableView = new TableView<CurrentProductList> (CurrentProductList.productAvailable);
 		
 		dataaccess = new DataAccess();
-
+		this.tran = new TransactionHandler();
+		
 		this.productPurchaseTab = new Tab();
 		this.productPurchaseTab.setText(" Purchases ");
 		this.productPurchaseTab.setClosable(false);
@@ -90,7 +95,14 @@ public class UserInterface {
 		sales.setPrefSize(80, 20);
 		sales.relocate(200, 25);
 		sales.setOnAction(e -> {
-
+			Stage popup = new Stage();
+			popup.initOwner(this.stage);
+			popup.setX(550);
+			popup.setY(300);
+			popup.setScene(this.tran.scene);
+			popup.sizeToScene();
+			popup.setTitle("Process Sale");
+			popup.show();
 		});
 		
 		Button purchases = new Button("Buy");
