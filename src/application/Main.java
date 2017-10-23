@@ -21,9 +21,11 @@ public class Main extends Application {
 			
 			
 			UserInterface ui = new UserInterface();
+			ui.stage = primaryStage;
 			ui.initializeProductList();
 			ui.initializePurchaseHistory();
 			ui.initializeSalesHistory();
+			
 			MenuBar menubar = new MenuBar();
 			menubar.setPrefWidth(950);
 
@@ -46,7 +48,7 @@ public class Main extends Application {
 			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			ui.stage = primaryStage;
+			
 			
 		} catch(Exception e) {
 			e.printStackTrace();

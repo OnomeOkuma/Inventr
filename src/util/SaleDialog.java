@@ -1,3 +1,7 @@
+/*
+ * This is an extension of the Stage Class for the custom Dialog needed to get input concerning the sale
+ * being made. 
+ */
 package util;
 
 import java.util.Iterator;
@@ -9,7 +13,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -23,8 +26,8 @@ public class SaleDialog extends Stage{
 				// Construct a new Stage object
 				super();
 				
-				//Construct a new ComboBox object, populate it's items with the names of the current products 
-				//available and attach a label object to it.
+				// Construct a new ComboBox object, populate it's items with the names of the current products 
+				// available and attach a label object to it.
 				ComboBox<String> combobox = new ComboBox<String>();
 				ObservableList<String> currentItems = FXCollections.observableArrayList();
 				Iterator<CurrentProductList> iterator = CurrentProductList.productAvailable.iterator();
@@ -33,14 +36,12 @@ public class SaleDialog extends Stage{
 				}
 				combobox.setItems(currentItems);
 				combobox.setEditable(false);
-				Label items = new Label("Item");
 				
 				
 				TextField costField = new TextField();
 				costField.setPromptText("Total Cost");
 				costField.setAlignment(Pos.CENTER_LEFT);
 				costField.setMaxWidth(150);
-				Label cost = new Label("Total Cost");
 				costField.setEditable(false);
 				
 				// Create a TextField Object that takes in the number of items purchased
@@ -49,7 +50,6 @@ public class SaleDialog extends Stage{
 				itemAmountField.setPromptText("Item Amount");
 				itemAmountField.setAlignment(Pos.CENTER_LEFT);
 				itemAmountField.setMaxWidth(150);
-				Label number = new Label("Item Amount");
 				itemAmountField.setOnAction(e -> {
 					// Checks if the itemAmountField and combobox has any input entered 
 					if(itemAmountField.getText() != null && combobox.getValue() != null){
@@ -58,7 +58,7 @@ public class SaleDialog extends Stage{
 						while(iterator2.hasNext()){
 							CurrentProductList temp = iterator2.next();
 							
-							//Checks if the Item Code selected is the same with the given CurrentProductList.
+							// Checks if the Item Code selected is the same with the given CurrentProductList.
 							if(temp.getItemCode().equals(combobox.getValue())){
 								Integer temp2 = Integer.parseInt(itemAmountField.getText()) * temp.getPrice();
 								costField.setText(temp2.toString());
@@ -68,11 +68,7 @@ public class SaleDialog extends Stage{
 					}else System.out.println("Suckker");
 				});
 				
-				
-				
-				
-				
-				//Set the layout of the Scene object to house all these components
+				// Set the layout of the Scene object to house all these components
 				VBox layout = new VBox(10);
 				layout.setAlignment(Pos.BASELINE_LEFT);
 				layout.setPadding(new Insets(0, 0, 0, 10));
@@ -80,13 +76,13 @@ public class SaleDialog extends Stage{
 				// Create a button object to trigger processing of the transaction.
 				Button button = new Button("Process Transaction");
 				
-				//Attach the components to the layout.
-				layout.getChildren().addAll(items, combobox, number, itemAmountField, cost, costField, button);
+				// Attach the components to the layout.
+				layout.getChildren().addAll(combobox, itemAmountField, costField, button);
 				
-				//Create a Scene Object with the layout above 
-				this.scene = new Scene(layout, 400, 300); 
+				// Create a Scene Object with the layout above 
+				this.scene = new Scene(layout, 300, 200); 
 				
-				//Add it to the Stage Object.
+				// Add it to the Stage Object.
 				super.setScene(this.scene);
 				super.setTitle("Process Sale");
 				super.setResizable(false);

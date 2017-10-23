@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 public class CurrentProductList extends Product{
 	
 	private String description;
+	private int numberAvailable;
 	private int price;
 	public static ObservableList<CurrentProductList> productAvailable;
 	
@@ -18,6 +19,10 @@ public class CurrentProductList extends Product{
 		return this.description;
 	}
 	
+	public int getNumberAvailable() {
+		return this.numberAvailable;
+	}
+
 	public int getPrice() {
 		return this.price;
 	}
@@ -26,6 +31,10 @@ public class CurrentProductList extends Product{
 		this.description = description;
 	}
 
+	public void setNumberAvailable(int numberAvailable) {
+		this.numberAvailable = numberAvailable;
+	}
+	
 	public void setPrice(int price) {
 		this.price = price;
 	}

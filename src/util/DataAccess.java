@@ -4,6 +4,7 @@
  */
 package util;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -39,9 +40,12 @@ public class DataAccess {
 		
 	}
 
-	public SessionFactory getSessionFactory() {
-		return this.sessionFactory;
+	public Session getSession() {
+		return this.sessionFactory.openSession();
 	}
 	
+	public void close(){
+		this.sessionFactory.close();
+	}
 	
 }

@@ -4,7 +4,8 @@
 
 package models;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 
 
@@ -14,26 +15,43 @@ import javafx.collections.ObservableList;
 public class ProductPurchased extends Product  {
 	
 	// Properties unique to purchase history.
-	private Timestamp timestamp;
+	private int amount;
+	private LocalDate timestamp;
 	private int totalPurchasesMade;
+	private int numberAvailableAfterPurchase;
 	
 	// ObservableList used by the associated Table.
 	public static ObservableList<ProductPurchased> productPurchased;
-	
-	
+
 	public ProductPurchased(){
 	}
 	
 	// Getter and Setter methods used by the Hibernate library.
-	public Timestamp getTimestamp() {
+	public int getAmount() {
+		return this.amount;
+	}
+	
+	public int getNumberAvailableAfterPurchase() {
+		return this.numberAvailableAfterPurchase;
+	}
+	
+	public LocalDate getTimestamp() {
 		return this.timestamp;
 	}
 	
 	public int getTotalPurchasesMade() {
 		return this.totalPurchasesMade;
 	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 	
-	public void setTimestamp(Timestamp timestamp) {
+	public void setNumberAvailableAfterPurchase(int numberAvailableAfterPurchase) {
+		this.numberAvailableAfterPurchase = numberAvailableAfterPurchase;
+	}
+
+	public void setTimestamp(LocalDate timestamp) {
 		this.timestamp = timestamp;
 	}
 

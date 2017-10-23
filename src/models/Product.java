@@ -15,8 +15,7 @@ public class Product {
 	
 	// Properties Common to all transactions.
 	private String itemCode;
-	private String productName;
-	private int numberAvailable;
+	private String itemName;
 	
 	public Product(){
 	}
@@ -26,24 +25,16 @@ public class Product {
 	public String getItemCode() {
 		return this.itemCode;
 	}
-
-	public int getNumberAvailable() {
-		return this.numberAvailable;
-	}
 	
 	public String getProductName() {
-		return this.productName;
+		return this.itemName;
 	}
 
 	public void setItemCode(String itemCode) {
 		this.itemCode = itemCode;
 	}
 	
-	public void setNumberAvailable(int numberAvailable) {
-		this.numberAvailable = numberAvailable;
-	}
-	
 	public void setProductName(String productName) {
-		this.productName = productName;
+		this.itemName = productName;
 	}
 }
