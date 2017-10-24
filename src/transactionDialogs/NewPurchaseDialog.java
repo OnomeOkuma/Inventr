@@ -2,7 +2,7 @@
  * This is an extension of the Stage Class for the custom Dialog needed to get input concerning the purchase
  * being made. 
  */
-package util;
+package transactionDialogs;
 
 import java.time.LocalDate;
 
@@ -16,12 +16,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import models.CurrentProductList;
 import models.ProductPurchased;
+import util.UpdatePurchaseHistory;
 
-public class PurchaseDialog extends Stage{
+public class NewPurchaseDialog extends Stage{
 	private Scene scene;
 	
-	public PurchaseDialog(){
+	public NewPurchaseDialog(){
 		// Construct a new Stage object
 		super();
 		
@@ -90,29 +92,34 @@ public class PurchaseDialog extends Stage{
 				alert.showAndWait();
 			}
 			
-			// Run if all fields have been filled by the user.
+			// Run if all fields has been filled by the user.
 			if(itemCode.length() != 0 && itemName.length() != 0 && itemDescrip.length() != 0 &&
 					amountSpent != 0 && price != 0 && numberOfItems != 0){
 				
-				ProductPurchased record = new ProductPurchased();
-				record.setAmount(amountSpent);
-				record.setItemCode(itemCode);
+				ProductPurchased recordPurchase = new ProductPurchased();
+				recordPurchase.setAmount(amountSpent);
+				recordPurchase.setItemCode(itemCode);
+				recordPurchase.setProductName(itemName);
+				recordPurchase.setTimestamp(LocalDate.now());
+				recordPurchase.setTotalPurchasesMade(numberOfItems);
 				
-				// temporary. The real value will have to be computed.
-				record.setNumberAvailableAfterPurchase(price);
 				
-				record.setProductName(itemName);
-				record.setTimestamp(LocalDate.now());
-				record.setTotalPurchasesMade(numberOfItems);
+				CurrentProductList newProduct = new CurrentProductList();
+				newProduct.setItemCode(itemCode);
+				newProduct.setProductName(itemName);
+				newProduct.setDescription(itemDescrip);
+				newProduct.setNumberAvailable(numberOfItems);
+				newProduct.setPrice(price);
 				
 				// Run this action on a separate thread to free up the JavaFX application thread.
-				UpdatePurchaseHistory temp = new UpdatePurchaseHistory(record);
-				Thread tread = new Thread(temp);
-				tread.start();
+				UpdatePurchaseHistory temp = new UpdatePurchaseHistory(recordPurchase, newProduct);
+				Thread thread = new Thread(temp);
+				thread.start();
 				this.close();
 			}
 			
 		});
+		
 		// Attach the components to the layout.
 		layout.getChildren().addAll( itemCodeField, nameField, descripField, amountSpentField, priceField,itemAmountField, button );
 		
@@ -121,7 +128,7 @@ public class PurchaseDialog extends Stage{
 		
 		// Add it to the Stage Object.
 		super.setScene(this.scene);
-		super.setTitle("Process Purchase");
+		super.setTitle("Process New Purchase");
 		super.setResizable(false);
 	}
 }

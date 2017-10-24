@@ -18,7 +18,6 @@ public class ProductPurchased extends Product  {
 	private int amount;
 	private LocalDate timestamp;
 	private int totalPurchasesMade;
-	private int numberAvailableAfterPurchase;
 	
 	// ObservableList used by the associated Table.
 	public static ObservableList<ProductPurchased> productPurchased;
@@ -31,10 +30,6 @@ public class ProductPurchased extends Product  {
 		return this.amount;
 	}
 	
-	public int getNumberAvailableAfterPurchase() {
-		return this.numberAvailableAfterPurchase;
-	}
-	
 	public LocalDate getTimestamp() {
 		return this.timestamp;
 	}
@@ -45,10 +40,6 @@ public class ProductPurchased extends Product  {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
-	}
-	
-	public void setNumberAvailableAfterPurchase(int numberAvailableAfterPurchase) {
-		this.numberAvailableAfterPurchase = numberAvailableAfterPurchase;
 	}
 
 	public void setTimestamp(LocalDate timestamp) {

@@ -14,9 +14,9 @@ import javafx.stage.Stage;
 import models.CurrentProductList;
 import models.ProductPurchased;
 import models.ProductSold;
+import transactionDialogs.PurchaseDialog;
+import transactionDialogs.SaleDialog;
 import util.DataAccess;
-import util.PurchaseDialog;
-import util.SaleDialog;
 
 public class UserInterface {
 	 Tab productSoldTab;
@@ -27,7 +27,7 @@ public class UserInterface {
 	 private TableView<ProductPurchased> productPurchasedView;
 	 private TableView<ProductSold> productSoldView;
 	 public static DataAccess dataaccess;
-	 Stage stage;
+	 public static Stage stage;
 	 
 	public UserInterface(){
 		this.currentProductListTab = new Tab();
@@ -68,12 +68,13 @@ public class UserInterface {
 		TableColumn<CurrentProductList,String> nameCol = new TableColumn<CurrentProductList,String>();
 		nameCol.setText("Name");
 		nameCol.setEditable(false);
+		nameCol.setPrefWidth(200);
 		nameCol.setResizable(false);
 		nameCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("productName"));
 		
 		TableColumn<CurrentProductList,String> descriptionCol = new TableColumn<CurrentProductList,String>();
 		descriptionCol.setText("Description");
-		descriptionCol.setPrefWidth(400);
+		descriptionCol.setPrefWidth(385);
 		descriptionCol.setResizable(false);
 		descriptionCol.setEditable(false);
 		descriptionCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("description"));
@@ -98,7 +99,7 @@ public class UserInterface {
 		sales.relocate(200, 25);
 		sales.setOnAction(e -> {
 			SaleDialog sale = new SaleDialog();
-			sale.initOwner(this.stage);
+			sale.initOwner(UserInterface.stage);
 			sale.show();
 		});
 		
@@ -107,7 +108,7 @@ public class UserInterface {
 		purchases.relocate(650, 25);
 		purchases.setOnAction(e -> {
 			PurchaseDialog purchase = new PurchaseDialog();
-			purchase.initOwner(this.stage);
+			purchase.initOwner(UserInterface.stage);
 			purchase.show();
 		});
 		Pane buttonLayout = new Pane();
@@ -132,37 +133,31 @@ public class UserInterface {
 		TableColumn<ProductPurchased,String> nameCol = new TableColumn<ProductPurchased,String>();
 		nameCol.setText("Name");
 		nameCol.setEditable(false);
+		nameCol.setPrefWidth(200);
 		nameCol.setResizable(false);
 		nameCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, String>("productName"));
 		
 		TableColumn<ProductPurchased,Integer> purchasesMadeCol = new TableColumn<ProductPurchased,Integer>();
 		purchasesMadeCol.setText("Items Purchased");
 		purchasesMadeCol.setEditable(false);
-		purchasesMadeCol.setPrefWidth(195);
+		purchasesMadeCol.setPrefWidth(200);
 		purchasesMadeCol.setResizable(false);
 		purchasesMadeCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, Integer>("totalPurchasesMade"));
 		
 		TableColumn<ProductPurchased,Integer> purchaseAmountCol = new TableColumn<ProductPurchased,Integer>();
 		purchaseAmountCol.setText("Value");
 		purchaseAmountCol.setEditable(false);
-		purchaseAmountCol.setPrefWidth(195);
+		purchaseAmountCol.setPrefWidth(200);
 		purchaseAmountCol.setResizable(false);
 		purchaseAmountCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, Integer>("amount"));
-		
-		TableColumn<ProductPurchased,Integer> availableCol = new TableColumn<ProductPurchased,Integer>();
-		availableCol.setText("Item Sum After Purchase");
-		availableCol.setEditable(false);
-		availableCol.setPrefWidth(195);
-		availableCol.setResizable(false);
-		availableCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, Integer>("numberAvailableAfterPurchase"));
 		
 		TableColumn<ProductPurchased, LocalDate> timeCol = new TableColumn<ProductPurchased,LocalDate>();
 		timeCol.setText("TimeStamp");
 		timeCol.setEditable(false);
-		timeCol.setPrefWidth(195);
+		timeCol.setPrefWidth(200);
 		timeCol.setResizable(false);
 		timeCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, LocalDate>("timestamp"));
-		this.productPurchasedView.getColumns().addAll(idCol, nameCol, purchasesMadeCol,purchaseAmountCol, availableCol, timeCol );
+		this.productPurchasedView.getColumns().addAll(idCol, nameCol, purchasesMadeCol,purchaseAmountCol, timeCol );
 		this.productPurchaseTab.setContent(this.productPurchasedView);
 	}
 	
@@ -178,37 +173,31 @@ public class UserInterface {
 		TableColumn<ProductSold,String> nameCol = new TableColumn<ProductSold,String>();
 		nameCol.setText("Name");
 		nameCol.setEditable(false);
+		nameCol.setPrefWidth(200);
 		nameCol.setResizable(false);
 		nameCol.setCellValueFactory(new PropertyValueFactory<ProductSold, String>("productName"));
 		
 		TableColumn<ProductSold,Integer> salesMadeCol = new TableColumn<ProductSold,Integer>();
 		salesMadeCol.setText("Items Sold");
 		salesMadeCol.setEditable(false);
-		salesMadeCol.setPrefWidth(195);
+		salesMadeCol.setPrefWidth(200);
 		salesMadeCol.setResizable(false);
 		salesMadeCol.setCellValueFactory(new PropertyValueFactory<ProductSold, Integer>("totalSalesMade"));
 		
 		TableColumn<ProductSold,Integer> saleAmountCol = new TableColumn<ProductSold,Integer>();
 		saleAmountCol.setText("Value");
 		saleAmountCol.setEditable(false);
-		saleAmountCol.setPrefWidth(195);
+		saleAmountCol.setPrefWidth(200);
 		saleAmountCol.setResizable(false);
 		saleAmountCol.setCellValueFactory(new PropertyValueFactory<ProductSold, Integer>("amount"));
-		
-		TableColumn<ProductSold,Integer> availableCol = new TableColumn<ProductSold,Integer>();
-		availableCol.setText("Item Sum After Sale");
-		availableCol.setEditable(false);
-		availableCol.setPrefWidth(190);
-		availableCol.setResizable(false);
-		availableCol.setCellValueFactory(new PropertyValueFactory<ProductSold, Integer>("numberAfterSale"));
 		
 		TableColumn<ProductSold, LocalDate> timeCol = new TableColumn<ProductSold,LocalDate>();
 		timeCol.setText("Time Stamp");
 		timeCol.setEditable(false);
-		timeCol.setPrefWidth(195);
+		timeCol.setPrefWidth(200);
 		timeCol.setResizable(false);
 		timeCol.setCellValueFactory(new PropertyValueFactory<ProductSold, LocalDate>("timestamp"));
-		this.productSoldView.getColumns().addAll(idCol, nameCol, salesMadeCol,saleAmountCol, availableCol, timeCol );
+		this.productSoldView.getColumns().addAll(idCol, nameCol, salesMadeCol,saleAmountCol, timeCol );
 		this.productSoldTab.setContent(this.productSoldView);
 	}
 }

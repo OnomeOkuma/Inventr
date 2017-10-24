@@ -2,7 +2,7 @@
  * This is an extension of the Stage Class for the custom Dialog needed to get input concerning the sale
  * being made. 
  */
-package util;
+package transactionDialogs;
 
 import java.util.Iterator;
 
@@ -19,7 +19,6 @@ import javafx.stage.Stage;
 import models.CurrentProductList;
 
 public class SaleDialog extends Stage{
-		private Scene scene;
 		
 		public SaleDialog(){
 			
@@ -61,11 +60,11 @@ public class SaleDialog extends Stage{
 							// Checks if the Item Code selected is the same with the given CurrentProductList.
 							if(temp.getItemCode().equals(combobox.getValue())){
 								Integer temp2 = Integer.parseInt(itemAmountField.getText()) * temp.getPrice();
-								costField.setText(temp2.toString());
+								costField.setText("₦" + temp2.toString());
 								break;
 							}
 						}
-					}else System.out.println("Suckker");
+					}
 				});
 				
 				// Set the layout of the Scene object to house all these components
@@ -80,10 +79,10 @@ public class SaleDialog extends Stage{
 				layout.getChildren().addAll(combobox, itemAmountField, costField, button);
 				
 				// Create a Scene Object with the layout above 
-				this.scene = new Scene(layout, 300, 200); 
+				Scene scene = new Scene(layout, 300, 200); 
 				
 				// Add it to the Stage Object.
-				super.setScene(this.scene);
+				super.setScene(scene);
 				super.setTitle("Process Sale");
 				super.setResizable(false);
 		}

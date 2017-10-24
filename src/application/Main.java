@@ -21,7 +21,7 @@ public class Main extends Application {
 			
 			
 			UserInterface ui = new UserInterface();
-			ui.stage = primaryStage;
+			UserInterface.stage = primaryStage;
 			ui.initializeProductList();
 			ui.initializePurchaseHistory();
 			ui.initializeSalesHistory();

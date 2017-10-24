@@ -10,7 +10,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.sqlite.JDBC</property>
-        <property name="connection.url">jdbc:sqlite:embedded</property>
+        <property name="connection.url">jdbc:sqlite:ProductPurchased.db</property>
         <property name="connection.username"></property>
         <property name="connection.password"/>
 
