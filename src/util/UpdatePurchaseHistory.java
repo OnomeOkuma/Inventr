@@ -4,6 +4,7 @@
 package util;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import application.UserInterface;
 import models.CurrentProductList;
@@ -27,8 +28,14 @@ public class UpdatePurchaseHistory implements Runnable{
 		
 		// Obtain a session and presists this information to the database.
 		Session sess = UserInterface.dataaccess.getSession();
-		sess.persist(this.record);
-		sess.persist(this.newProduct);
+		Transaction tx = sess.beginTransaction();
+		sess.save(this.record);
+		sess.save(this.newProduct);
+		tx.commit();
+		
+		tx = sess.beginTransaction();
+		System.out.println(sess.get(ProductPurchased.class, "Maxwell").toString());
+		tx.commit();
 		sess.close();
 		
 	}

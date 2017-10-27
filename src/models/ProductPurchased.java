@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 import javax.persistence.Entity;
 
-
 import javafx.collections.ObservableList;
 
 @Entity
@@ -48,5 +47,14 @@ public class ProductPurchased extends Product  {
 
 	public void setTotalPurchasesMade(int totalPurchasesMade) {
 		this.totalPurchasesMade = totalPurchasesMade;
+	}
+	
+	@Override
+	public String toString(){
+		return (this.getItemCode() +
+				"\n" + this.getProductName()
+				+ "\n" + this.getTotalPurchasesMade()
+				+ "\n" + this.getAmount()
+				+ "\n" + this.getTimestamp());
 	}
 }

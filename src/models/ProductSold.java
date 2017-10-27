@@ -48,5 +48,12 @@ public class ProductSold extends Product{
 	public void setTotalSalesMade(int totatlSalesMade) {
 		this.totalSalesMade = totatlSalesMade;
 	}
-	
+	@Override
+	public String toString(){
+		return (this.getItemCode() +
+				"\n" + this.getProductName()
+				+ "\n" + this.getTotalSalesMade()
+				+ "\n" + this.getAmount()
+				+ "\n" + this.getTimestamp());
+	}
 }
