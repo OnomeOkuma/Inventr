@@ -7,10 +7,6 @@
 
 package models;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-
-@MappedSuperclass
 public class Product {
 	
 	// Properties Common to all transactions.
@@ -21,7 +17,6 @@ public class Product {
 	}
 	
 	//Getter and Setter methods used by the Hibernate library to access these properties.
-	@Id
 	public String getItemCode() {
 		return this.itemCode;
 	}

@@ -1,10 +1,8 @@
 package models;
 
-import javax.persistence.Entity;
 import javafx.collections.ObservableList;
 
 
-@Entity
 public class CurrentProductList extends Product{
 	
 	private String description;

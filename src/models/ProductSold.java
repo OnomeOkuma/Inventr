@@ -4,18 +4,15 @@
 
 package models;
 
-import java.time.LocalDate;
-
-import javax.persistence.Entity;
+import java.sql.Timestamp;
 
 import javafx.collections.ObservableList;
 
-@Entity
 public class ProductSold extends Product{
 	
 	// Properties unique to sales history.
 	private int amount;
-	private LocalDate timestamp;
+	private Timestamp timestamp;
 	private int totalSalesMade;
 	
 	// ObservableList used by the associated Table.
@@ -29,7 +26,7 @@ public class ProductSold extends Product{
 		return this.amount;
 	}
 	
-	public LocalDate getTimestamp() {
+	public Timestamp getTimestamp() {
 		return this.timestamp;
 	}
 
@@ -41,7 +38,7 @@ public class ProductSold extends Product{
 		this.amount = amount;
 	}
 	
-	public void setTimestamp(LocalDate timestamp) {
+	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
 	

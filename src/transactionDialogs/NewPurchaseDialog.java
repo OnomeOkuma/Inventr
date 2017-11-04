@@ -4,7 +4,8 @@
  */
 package transactionDialogs;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -100,7 +101,7 @@ public class NewPurchaseDialog extends Stage{
 				recordPurchase.setAmount(amountSpent);
 				recordPurchase.setItemCode(itemCode);
 				recordPurchase.setProductName(itemName);
-				recordPurchase.setTimestamp(LocalDate.now());
+				recordPurchase.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
 				recordPurchase.setTotalPurchasesMade(numberOfItems);
 				
 				

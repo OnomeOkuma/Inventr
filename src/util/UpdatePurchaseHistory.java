@@ -3,8 +3,8 @@
  */
 package util;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import application.UserInterface;
 import models.CurrentProductList;
@@ -14,10 +14,14 @@ public class UpdatePurchaseHistory implements Runnable{
 	
 	private ProductPurchased record;
 	private CurrentProductList newProduct;
+	private Logger logger; 
 	
 	public UpdatePurchaseHistory(ProductPurchased record, CurrentProductList newProduct){
+		
 		this.record = record;
 		this.newProduct = newProduct;
+		this.logger = Logger.getLogger("Update History");
+		
 	}
 	
 	@Override
@@ -26,17 +30,23 @@ public class UpdatePurchaseHistory implements Runnable{
 		ProductPurchased.productPurchased.add(this.record);
 		CurrentProductList.productAvailable.add(this.newProduct);
 		
-		// Obtain a session and presists this information to the database.
-		Session sess = UserInterface.dataaccess.getSession();
-		Transaction tx = sess.beginTransaction();
-		sess.save(this.record);
-		sess.save(this.newProduct);
-		tx.commit();
-		
-		tx = sess.beginTransaction();
-		System.out.println(sess.get(ProductPurchased.class, "Maxwell").toString());
-		tx.commit();
-		sess.close();
+		try {
+			
+			int result = UserInterface.dataaccess.createStatement().executeUpdate(
+					"INSERT INTO PRODUCT_PURCHASED VALUES(" + "\'" + this.record.getItemCode() + "\'"
+					+ "," + "\'" + this.record.getProductName().toString() + "\'" + "," + this.record.getAmount()
+					+ "," + "\'" + this.record.getTimestamp().toString() + "\'" + "," + this.record.getTotalPurchasesMade()
+					+ ");"
+					
+					);
+			
+			System.out.println(result);
+
+			
+		} catch (SQLException e) {
+			this.logger.severe("Unable to run statement");
+			System.out.println(e.toString());
+		}
 		
 	}
 
