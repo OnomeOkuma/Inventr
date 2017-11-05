@@ -18,22 +18,22 @@ public class DataAccess {
 		
 		try {
 			
-			this.connection = DriverManager.getConnection("jdbc:h2:mem:");
+			this.connection = DriverManager.getConnection("jdbc:h2:~/Database");
 			this.logger.info("Connection was successfully created \n");
 			this.connection.setAutoCommit(true);
 			
 			Statement statement = this.connection.createStatement();
 			
 			statement.execute("CREATE TABLE IF NOT EXISTS PRODUCT_PURCHASED (ITEM_CODE VARCHAR(20)"
-					+ ", ITEM_NAME VARCHAR(40), AMOUNT INTEGER, TIMESTAMP TIMESTAMP PRIMARY KEY, TOTAL_PURCHASES_MADE INTEGER"
+					+ ", ITEM_NAME VARCHAR(40), TOTAL_PURCHASES_MADE INTEGER, AMOUNT INTEGER, TIMESTAMP TIMESTAMP PRIMARY KEY"
 					+ ");");	
 			
 			statement.execute("CREATE TABLE IF NOT EXISTS PRODUCT_SOLD (ITEM_CODE VARCHAR(20)"
-					+ ", ITEM_NAME VARCHAR(40), AMOUNT INTEGER, TIMESTAMP TIMESTAMP PRIMARY KEY, TOTAL_SALES_MADE INTEGER"
+					+ ", ITEM_NAME VARCHAR(40), TOTAL_SALES_MADE INTEGER, AMOUNT INTEGER, TIMESTAMP TIMESTAMP PRIMARY KEY"
 					+ ");");
 			
 			statement.execute("CREATE TABLE IF NOT EXISTS CURRENT_PRODUCT_LIST (ITEM_CODE VARCHAR(20) PRIMARY KEY"
-					+ ", ITEM_NAME VARCHAR(40), DESCRIPTION VARCHAR(1000), NUMBER_AVAILABLE INTEGER, TOTAL_SALES_MADE INTEGER"
+					+ ", ITEM_NAME VARCHAR(40), DESCRIPTION VARCHAR(1000), PRICE INTEGER, NUMBER_AVAILABLE INTEGER"
 					+ ");");
 			
 			statement.close();

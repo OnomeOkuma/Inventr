@@ -3,7 +3,9 @@
  */
 package util;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Logger;
 
 import application.UserInterface;
@@ -32,16 +34,28 @@ public class UpdatePurchaseHistory implements Runnable{
 		
 		try {
 			
-			int result = UserInterface.dataaccess.createStatement().executeUpdate(
+			//for logging purposes.
+			this.logger.info("SQL command: INSERT INTO PRODUCT_PURCHASED VALUES(" + "\'" + this.record.getItemCode() + "\'"
+					+ "," + "\'" + this.record.getProductName() + "\'" + "," + this.record.getTotalPurchasesMade()
+					+ "," + this.record.getAmount() + "," + "\'" + this.record.getTimestamp().toString() + "\'"
+					+ ");");
+			
+			Statement updateStatement = UserInterface.dataaccess.createStatement();
+			
+			updateStatement.executeUpdate(
+					
 					"INSERT INTO PRODUCT_PURCHASED VALUES(" + "\'" + this.record.getItemCode() + "\'"
-					+ "," + "\'" + this.record.getProductName().toString() + "\'" + "," + this.record.getAmount()
-					+ "," + "\'" + this.record.getTimestamp().toString() + "\'" + "," + this.record.getTotalPurchasesMade()
+					+ "," + "\'" + this.record.getProductName() + "\'" + "," + this.record.getTotalPurchasesMade()
+					+ "," + this.record.getAmount() + "," + "\'" + this.record.getTimestamp().toString() + "\'"
 					+ ");"
 					
 					);
 			
-			System.out.println(result);
-
+			ResultSet currentProductUpdate = updateStatement.executeQuery("SELECT PRICE NUMBER_AVAILABLE FROM CURRENT_PRODUCT_LIST WHERE"
+					+ " ITEM_CODE =" + "\'" + this.record.getItemCode() + "\' ;");
+			
+			System.out.println(currentProductUpdate.next());
+			updateStatement.close();
 			
 		} catch (SQLException e) {
 			this.logger.severe("Unable to run statement");
