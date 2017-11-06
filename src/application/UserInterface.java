@@ -1,6 +1,10 @@
 package application;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
@@ -28,8 +32,10 @@ public class UserInterface {
 	 private TableView<ProductSold> productSoldView;
 	 public static DataAccess dataaccess;
 	 public static Stage stage;
+	 private Logger logger;
 	 
 	public UserInterface(){
+		this.logger = Logger.getLogger("Initialization Logger");
 		this.currentProductListTab = new Tab();
 		this.currentProductListTab.setText("Product List");
 		this.currentProductListTab.setClosable(false);
@@ -119,6 +125,40 @@ public class UserInterface {
 		layout.setBottom(buttonLayout);
 		
 		this.currentProductListTab.setContent(layout);
+		
+		try {
+			
+			Statement dataInitialization = UserInterface.dataaccess.createStatement();
+
+			//logging
+			this.logger.info("Statement Created ");
+			
+			ResultSet currentProductList = dataInitialization.executeQuery(
+					"SELECT * FROM CURRENT_PRODUCT_LIST;"
+					);
+			
+			//logging
+			this.logger.info("Command executed successfully");
+			
+			while (currentProductList.next()){
+				CurrentProductList temp = new CurrentProductList();
+				temp.setItemCode(currentProductList.getString(1));
+				temp.setProductName(currentProductList.getString(2));
+				temp.setDescription(currentProductList.getString(3));
+				temp.setPrice(currentProductList.getInt(4));
+				temp.setNumberAvailable(currentProductList.getInt(5));
+				
+				CurrentProductList.productAvailable.add(temp);
+				
+			}
+			
+			dataInitialization.close();
+			this.logger.info("Statement closed Successfully" );
+			
+		} catch (SQLException e1) {
+			this.logger.severe("Unable to create Statement Object");
+			e1.printStackTrace();
+		}
 	}
 	
 	// Initialize Purchase History.
@@ -159,6 +199,38 @@ public class UserInterface {
 		timeCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, LocalDate>("timestamp"));
 		this.productPurchasedView.getColumns().addAll(idCol, nameCol, purchasesMadeCol,purchaseAmountCol, timeCol );
 		this.productPurchaseTab.setContent(this.productPurchasedView);
+		
+		try {
+			Statement dataInitialization = UserInterface.dataaccess.createStatement();
+			//logging
+			this.logger.info("Statement Created ");
+			
+			ResultSet purchaseHistory = dataInitialization.executeQuery(
+					
+										"SELECT * FROM PRODUCT_PURCHASED;"
+					
+										);
+			
+			while(purchaseHistory.next()){
+				
+				ProductPurchased temp = new ProductPurchased();
+				temp.setItemCode(purchaseHistory.getString(1));
+				temp.setProductName(purchaseHistory.getString(2));
+				temp.setTotalPurchasesMade(purchaseHistory.getInt(3));
+				temp.setAmount(purchaseHistory.getInt(4));
+				temp.setTimestamp(purchaseHistory.getTimestamp(5));
+				
+				ProductPurchased.productPurchased.add(temp);
+				
+			}
+			
+			dataInitialization.close();
+			this.logger.info("Statement closed Successfully" );
+			
+		} catch (SQLException e) {
+			this.logger.severe("Unable to create Statement Object");
+			e.printStackTrace();
+		}
 	}
 	
 	// Initialize Sales History.
