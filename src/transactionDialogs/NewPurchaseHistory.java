@@ -1,7 +1,7 @@
 /*
  * A Runnable class for updating the purchase History in addition to the Current product list information 
  */
-package util;
+package transactionDialogs;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,19 +12,20 @@ import application.UserInterface;
 import models.CurrentProductList;
 import models.ProductPurchased;
 
-public class UpdatePurchaseHistory implements Runnable{
+public class NewPurchaseHistory implements Runnable{
 	
 	private ProductPurchased record;
 	private CurrentProductList newProduct;
 	private Logger logger; 
 	
-	public UpdatePurchaseHistory(ProductPurchased record, CurrentProductList newProduct){
+	public NewPurchaseHistory(ProductPurchased record, CurrentProductList newProduct){
 		
 		this.record = record;
 		this.newProduct = newProduct;
-		this.logger = Logger.getLogger("Update History");
+		this.logger = Logger.getGlobal();
 		
 	}
+	
 	
 	@Override
 	public void run() {
@@ -36,7 +37,7 @@ public class UpdatePurchaseHistory implements Runnable{
 			Statement updateStatement = UserInterface.dataaccess.createStatement();
 			
 			//logging
-			this.logger.info("updateStatement Statement object opened Successfully");
+			this.logger.info("Statement created Successfully");
 			
 			updateStatement.executeUpdate(
 					

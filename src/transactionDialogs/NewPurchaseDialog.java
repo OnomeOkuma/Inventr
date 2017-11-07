@@ -19,7 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.CurrentProductList;
 import models.ProductPurchased;
-import util.UpdatePurchaseHistory;
 
 public class NewPurchaseDialog extends Stage{
 	private Scene scene;
@@ -88,37 +87,37 @@ public class NewPurchaseDialog extends Stage{
 				amountSpent = Integer.parseInt(amountSpentField.getText());
 				price = Integer.parseInt(priceField.getText());
 				numberOfItems = Integer.parseInt(itemAmountField.getText());
+				
+				// Run if all fields has been filled by the user.
+				if(itemCode.length() != 0 && itemName.length() != 0 && itemDescrip.length() != 0 &&
+					amountSpent != 0 && price != 0 && numberOfItems != 0){
+					
+					ProductPurchased recordPurchase = new ProductPurchased();
+					recordPurchase.setAmount(amountSpent);
+					recordPurchase.setItemCode(itemCode);
+					recordPurchase.setProductName(itemName);
+					recordPurchase.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+					recordPurchase.setTotalPurchasesMade(numberOfItems);
+					
+					
+					CurrentProductList newProduct = new CurrentProductList();
+					newProduct.setItemCode(itemCode);
+					newProduct.setProductName(itemName);
+					newProduct.setDescription(itemDescrip);
+					newProduct.setNumberAvailable(numberOfItems);
+					newProduct.setPrice(price);
+					
+					// Run this action on a separate thread to free up the JavaFX application thread.
+					NewPurchaseHistory temp = new NewPurchaseHistory(recordPurchase, newProduct);
+					Thread thread = new Thread(temp);
+					thread.start();
+					this.close();
+				}
+				
 			}catch(NumberFormatException error){
 				Alert alert = new Alert(AlertType.ERROR, "Error in one or More fields requiring Numbers");
 				alert.showAndWait();
 			}
-			
-			// Run if all fields has been filled by the user.
-			if(itemCode.length() != 0 && itemName.length() != 0 && itemDescrip.length() != 0 &&
-					amountSpent != 0 && price != 0 && numberOfItems != 0){
-				
-				ProductPurchased recordPurchase = new ProductPurchased();
-				recordPurchase.setAmount(amountSpent);
-				recordPurchase.setItemCode(itemCode);
-				recordPurchase.setProductName(itemName);
-				recordPurchase.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-				recordPurchase.setTotalPurchasesMade(numberOfItems);
-				
-				
-				CurrentProductList newProduct = new CurrentProductList();
-				newProduct.setItemCode(itemCode);
-				newProduct.setProductName(itemName);
-				newProduct.setDescription(itemDescrip);
-				newProduct.setNumberAvailable(numberOfItems);
-				newProduct.setPrice(price);
-				
-				// Run this action on a separate thread to free up the JavaFX application thread.
-				UpdatePurchaseHistory temp = new UpdatePurchaseHistory(recordPurchase, newProduct);
-				Thread thread = new Thread(temp);
-				thread.start();
-				this.close();
-			}
-			
 		});
 		
 		// Attach the components to the layout.

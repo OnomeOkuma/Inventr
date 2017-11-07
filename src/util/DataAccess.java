@@ -6,6 +6,8 @@ package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
@@ -49,11 +51,13 @@ public class DataAccess {
 	
 	public Statement createStatement() throws SQLException{
 		
-		return this.connection.createStatement();
+		return this.connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 		
 	}
 	
-	
+	public PreparedStatement createPreparedStatement() throws SQLException{
+		return this.connection.prepareStatement("INSERT INTO PRODUCT_PURCHASED VALUES(? , ?, ? , ? , ?);");
+	}
 	public void close(){
 		
 		try {
