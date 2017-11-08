@@ -4,7 +4,12 @@
  */
 package transactionDialogs;
 
+import java.sql.Timestamp;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Iterator;
+import java.util.Locale;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.CurrentProductList;
+import models.ProductSold;
 
 public class SaleDialog extends Stage{
 		
@@ -36,7 +42,6 @@ public class SaleDialog extends Stage{
 				combobox.setItems(currentItems);
 				combobox.setEditable(false);
 				
-				
 				TextField costField = new TextField();
 				costField.setPromptText("Total Cost");
 				costField.setAlignment(Pos.CENTER_LEFT);
@@ -49,21 +54,40 @@ public class SaleDialog extends Stage{
 				itemAmountField.setPromptText("Item Amount");
 				itemAmountField.setAlignment(Pos.CENTER_LEFT);
 				itemAmountField.setMaxWidth(150);
-				itemAmountField.setOnAction(e -> {
-					// Checks if the itemAmountField and combobox has any input entered 
-					if(itemAmountField.getText() != null && combobox.getValue() != null){
-						 
+				
+				combobox.setOnAction(e -> {
+					itemAmountField.setText("0");
+				});
+				
+				
+				itemAmountField.setOnKeyReleased(e -> {
+					try{
+						Integer itemAmount = Integer.parseInt(itemAmountField.getText());
 						Iterator<CurrentProductList> iterator2 = CurrentProductList.productAvailable.iterator();
 						while(iterator2.hasNext()){
 							CurrentProductList temp = iterator2.next();
 							
 							// Checks if the Item Code selected is the same with the given CurrentProductList.
 							if(temp.getItemCode().equals(combobox.getValue())){
-								Integer temp2 = Integer.parseInt(itemAmountField.getText()) * temp.getPrice();
-								costField.setText("₦" + temp2.toString());
+								
+								Integer temp2;
+								try {
+									
+									temp2 = itemAmount * temp.getPriceInt();
+									NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("en", "NG"));  
+									costField.setText(format.format(temp2));
+							
+								}catch (ParseException e1) {
+
+									e1.printStackTrace();
+								}
+								
 								break;
 							}
 						}
+						
+					}catch(NumberFormatException error){
+						costField.setText("NGN0");
 					}
 				});
 				
@@ -74,7 +98,36 @@ public class SaleDialog extends Stage{
 				
 				// Create a button object to trigger processing of the transaction.
 				Button button = new Button("Process Transaction");
-				
+				button.setOnAction(e -> {
+					ProductSold productSold = new ProductSold();
+					productSold.setItemCode(combobox.getValue());
+					
+					Iterator<CurrentProductList> iterator2 = CurrentProductList.productAvailable.iterator();
+					while(iterator2.hasNext()){
+						CurrentProductList temp = iterator2.next();
+						if (combobox.getValue().equals(temp.getItemCode())){
+							productSold.setProductName(temp.getProductName());
+						}
+					}
+					
+					Integer number = Integer.parseInt(itemAmountField.getText());
+					if(number > 0){
+						productSold.setTotalSalesMade(number);
+						productSold.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+						NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("en", "NG"));
+						try {
+							
+							productSold.setAmount(format.parse(costField.getText()).intValue());
+							UpdateSaleHistory update = new UpdateSaleHistory(productSold);
+							Thread thread = new Thread(update);
+							thread.start();
+							this.close();
+							
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+				});
 				// Attach the components to the layout.
 				layout.getChildren().addAll(combobox, itemAmountField, costField, button);
 				

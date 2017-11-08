@@ -3,6 +3,7 @@ package transactionDialogs;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.logging.Logger;
 
 import application.UserInterface;
@@ -28,14 +29,15 @@ public class UpdatePurchaseHistory implements Runnable{
 				Statement statement = UserInterface.dataaccess.createStatement();
 				this.logger.info("Statement created successfully");
 				
-				statement.executeUpdate(
-						
-						"INSERT INTO PRODUCT_PURCHASED VALUES(" + "\'" + this.record.getItemCode() + "\'"
-						+ "," + "\'" + this.record.getProductName() + "\'" + "," + this.record.getTotalPurchasesMade()
-						+ "," + this.record.getAmount() + "," + "\'" + this.record.getTimestamp().toString() + "\'"
-						+ ");"
-						
-						);
+				try {
+					statement.executeUpdate(
+							
+							"INSERT INTO PRODUCT_PURCHASED VALUES(" + "\'" + this.record.getItemCode() + "\'"
+							+ "," + "\'" + this.record.getProductName() + "\'" + "," + this.record.getTotalPurchasesMadeInt()
+							+ "," + this.record.getAmountInt() + "," + "\'" + this.record.getTimestampValue() + "\'"
+							+ ");"
+							
+							);
 				
 				ResultSet purchaseHistory = statement.executeQuery(
 						
@@ -63,10 +65,14 @@ public class UpdatePurchaseHistory implements Runnable{
 				
 				statement.executeUpdate(
 						"UPDATE CURRENT_PRODUCT_LIST "
-						+ "SET NUMBER_AVAILABLE = NUMBER_AVAILABLE + " + this.record.getTotalPurchasesMade()
+						+ "SET NUMBER_AVAILABLE = NUMBER_AVAILABLE + " + this.record.getTotalPurchasesMadeInt()
 						+ "WHERE ITEM_CODE = " + "\'" + this.record.getItemCode() + "\'"
 						);
 				
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				ResultSet currentProduct = statement.executeQuery(
 						

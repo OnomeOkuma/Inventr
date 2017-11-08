@@ -6,7 +6,6 @@ package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,14 +26,14 @@ public class DataAccess {
 			Statement statement = this.connection.createStatement();
 			
 			statement.execute("CREATE TABLE IF NOT EXISTS PRODUCT_PURCHASED (ITEM_CODE VARCHAR(20)"
-					+ ", ITEM_NAME VARCHAR(40), TOTAL_PURCHASES_MADE INTEGER, AMOUNT INTEGER, TIMESTAMP TIMESTAMP PRIMARY KEY"
+					+ ", ITEM_NAME VARCHAR(40), TOTAL_PURCHASES_MADE INTEGER, AMOUNT INTEGER, TIMESTAMP TIMESTAMP"
 					+ ");");	
 			
 			statement.execute("CREATE TABLE IF NOT EXISTS PRODUCT_SOLD (ITEM_CODE VARCHAR(20)"
-					+ ", ITEM_NAME VARCHAR(40), TOTAL_SALES_MADE INTEGER, AMOUNT INTEGER, TIMESTAMP TIMESTAMP PRIMARY KEY"
+					+ ", ITEM_NAME VARCHAR(40), TOTAL_SALES_MADE INTEGER, AMOUNT INTEGER, TIMESTAMP TIMESTAMP"
 					+ ");");
 			
-			statement.execute("CREATE TABLE IF NOT EXISTS CURRENT_PRODUCT_LIST (ITEM_CODE VARCHAR(20) PRIMARY KEY"
+			statement.execute("CREATE TABLE IF NOT EXISTS CURRENT_PRODUCT_LIST (ITEM_CODE VARCHAR(20)"
 					+ ", ITEM_NAME VARCHAR(40), DESCRIPTION VARCHAR(1000), PRICE INTEGER, NUMBER_AVAILABLE INTEGER"
 					+ ");");
 			
@@ -54,10 +53,8 @@ public class DataAccess {
 		return this.connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 		
 	}
+
 	
-	public PreparedStatement createPreparedStatement() throws SQLException{
-		return this.connection.prepareStatement("INSERT INTO PRODUCT_PURCHASED VALUES(? , ?, ? , ? , ?);");
-	}
 	public void close(){
 		
 		try {

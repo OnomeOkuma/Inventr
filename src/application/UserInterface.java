@@ -3,7 +3,6 @@ package application;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
@@ -64,45 +63,38 @@ public class UserInterface {
 	@SuppressWarnings("unchecked")
 	public void initializeProductList(){
 		
+		// Creates the Columns needed
 		TableColumn<CurrentProductList,String> idCol = new TableColumn<CurrentProductList,String>();
 		idCol.setText("ID");
 		idCol.setEditable(false);
-		idCol.setResizable(false);
 		idCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("itemCode"));
 
 		
 		TableColumn<CurrentProductList,String> nameCol = new TableColumn<CurrentProductList,String>();
 		nameCol.setText("Name");
 		nameCol.setEditable(false);
-		nameCol.setPrefWidth(200);
-		nameCol.setResizable(false);
 		nameCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("productName"));
 		
 		TableColumn<CurrentProductList,String> descriptionCol = new TableColumn<CurrentProductList,String>();
 		descriptionCol.setText("Description");
-		descriptionCol.setPrefWidth(385);
-		descriptionCol.setResizable(false);
 		descriptionCol.setEditable(false);
 		descriptionCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("description"));
 		
-		TableColumn<CurrentProductList,Integer> priceCol = new TableColumn<CurrentProductList,Integer>();
+		TableColumn<CurrentProductList,String> priceCol = new TableColumn<CurrentProductList,String>();
 		priceCol.setText("Price");
 		priceCol.setEditable(false);
-		priceCol.setResizable(false);
-		priceCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, Integer>("price"));
+		priceCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("price"));
 		
-		TableColumn<CurrentProductList,Integer> availableCol = new TableColumn<CurrentProductList,Integer>();
+		TableColumn<CurrentProductList,String> availableCol = new TableColumn<CurrentProductList,String>();
 		availableCol.setText("Total Available");
 		availableCol.setEditable(false);
-		availableCol.setResizable(false);
-		availableCol.setPrefWidth(200);
-		availableCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, Integer>("numberAvailable"));
+		availableCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("numberAvailable"));
 		
 		this.productAvailableView.getColumns().setAll(idCol, nameCol, descriptionCol, priceCol, availableCol);
 		
 		Button sales = new Button("Sell");
 		sales.setPrefSize(80, 20);
-		sales.relocate(200, 25);
+		sales.relocate(300, 25);
 		sales.setOnAction(e -> {
 			SaleDialog sale = new SaleDialog();
 			sale.initOwner(UserInterface.stage);
@@ -111,7 +103,7 @@ public class UserInterface {
 		
 		Button purchases = new Button("Buy");
 		purchases.setPrefSize(80, 20);
-		purchases.relocate(650, 25);
+		purchases.relocate(750, 25);
 		purchases.setOnAction(e -> {
 			PurchaseDialog purchase = new PurchaseDialog();
 			purchase.initOwner(UserInterface.stage);
@@ -161,42 +153,37 @@ public class UserInterface {
 		}
 	}
 	
+	
+	
 	// Initialize Purchase History.
 	@SuppressWarnings("unchecked")
 	public void initializePurchaseHistory(){
+		
+		// Creates the Columns needed
 		TableColumn<ProductPurchased,String> idCol = new TableColumn<ProductPurchased,String>();
 		idCol.setText("ID");
 		idCol.setEditable(false);
-		idCol.setResizable(false);
 		idCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, String>("itemCode"));
 		
 		TableColumn<ProductPurchased,String> nameCol = new TableColumn<ProductPurchased,String>();
 		nameCol.setText("Name");
 		nameCol.setEditable(false);
-		nameCol.setPrefWidth(200);
-		nameCol.setResizable(false);
 		nameCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, String>("productName"));
 		
-		TableColumn<ProductPurchased,Integer> purchasesMadeCol = new TableColumn<ProductPurchased,Integer>();
+		TableColumn<ProductPurchased,String> purchasesMadeCol = new TableColumn<ProductPurchased,String>();
 		purchasesMadeCol.setText("Items Purchased");
 		purchasesMadeCol.setEditable(false);
-		purchasesMadeCol.setPrefWidth(200);
-		purchasesMadeCol.setResizable(false);
-		purchasesMadeCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, Integer>("totalPurchasesMade"));
+		purchasesMadeCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, String>("totalPurchasesMade"));
 		
-		TableColumn<ProductPurchased,Integer> purchaseAmountCol = new TableColumn<ProductPurchased,Integer>();
+		TableColumn<ProductPurchased,String> purchaseAmountCol = new TableColumn<ProductPurchased,String>();
 		purchaseAmountCol.setText("Value");
 		purchaseAmountCol.setEditable(false);
-		purchaseAmountCol.setPrefWidth(200);
-		purchaseAmountCol.setResizable(false);
-		purchaseAmountCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, Integer>("amount"));
+		purchaseAmountCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, String>("amount"));
 		
-		TableColumn<ProductPurchased, LocalDate> timeCol = new TableColumn<ProductPurchased,LocalDate>();
+		TableColumn<ProductPurchased, String> timeCol = new TableColumn<ProductPurchased,String>();
 		timeCol.setText("TimeStamp");
 		timeCol.setEditable(false);
-		timeCol.setPrefWidth(200);
-		timeCol.setResizable(false);
-		timeCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, LocalDate>("timestamp"));
+		timeCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, String>("timestamp"));
 		this.productPurchasedView.getColumns().addAll(idCol, nameCol, purchasesMadeCol,purchaseAmountCol, timeCol );
 		this.productPurchaseTab.setContent(this.productPurchasedView);
 		
@@ -236,40 +223,66 @@ public class UserInterface {
 	// Initialize Sales History.
 	@SuppressWarnings("unchecked")
 	public void initializeSalesHistory(){
+		
+		// Creates the Columns needed
 		TableColumn<ProductSold,String> idCol = new TableColumn<ProductSold,String>();
 		idCol.setText("ID");
 		idCol.setEditable(false);
-		idCol.setResizable(false);
 		idCol.setCellValueFactory(new PropertyValueFactory<ProductSold, String>("itemCode"));
 		
 		TableColumn<ProductSold,String> nameCol = new TableColumn<ProductSold,String>();
 		nameCol.setText("Name");
 		nameCol.setEditable(false);
-		nameCol.setPrefWidth(200);
-		nameCol.setResizable(false);
 		nameCol.setCellValueFactory(new PropertyValueFactory<ProductSold, String>("productName"));
 		
-		TableColumn<ProductSold,Integer> salesMadeCol = new TableColumn<ProductSold,Integer>();
+		TableColumn<ProductSold,String> salesMadeCol = new TableColumn<ProductSold,String>();
 		salesMadeCol.setText("Items Sold");
 		salesMadeCol.setEditable(false);
-		salesMadeCol.setPrefWidth(200);
-		salesMadeCol.setResizable(false);
-		salesMadeCol.setCellValueFactory(new PropertyValueFactory<ProductSold, Integer>("totalSalesMade"));
+		salesMadeCol.setCellValueFactory(new PropertyValueFactory<ProductSold, String>("totalSalesMade"));
 		
-		TableColumn<ProductSold,Integer> saleAmountCol = new TableColumn<ProductSold,Integer>();
+		TableColumn<ProductSold,String> saleAmountCol = new TableColumn<ProductSold,String>();
 		saleAmountCol.setText("Value");
 		saleAmountCol.setEditable(false);
-		saleAmountCol.setPrefWidth(200);
-		saleAmountCol.setResizable(false);
-		saleAmountCol.setCellValueFactory(new PropertyValueFactory<ProductSold, Integer>("amount"));
+		saleAmountCol.setCellValueFactory(new PropertyValueFactory<ProductSold, String>("amount"));
 		
-		TableColumn<ProductSold, LocalDate> timeCol = new TableColumn<ProductSold,LocalDate>();
+		TableColumn<ProductSold, String> timeCol = new TableColumn<ProductSold,String>();
 		timeCol.setText("Time Stamp");
 		timeCol.setEditable(false);
-		timeCol.setPrefWidth(200);
-		timeCol.setResizable(false);
-		timeCol.setCellValueFactory(new PropertyValueFactory<ProductSold, LocalDate>("timestamp"));
+		timeCol.setCellValueFactory(new PropertyValueFactory<ProductSold, String>("timestamp"));
 		this.productSoldView.getColumns().addAll(idCol, nameCol, salesMadeCol,saleAmountCol, timeCol );
 		this.productSoldTab.setContent(this.productSoldView);
+		try {
+			Statement dataInitialization = UserInterface.dataaccess.createStatement();
+			//logging
+			this.logger.info("Statement Created ");
+		
+			ResultSet saleHistory = dataInitialization.executeQuery(
+				
+										"SELECT * FROM PRODUCT_SOLD;"
+				
+										);
+		
+			while(saleHistory.next()){
+			
+				ProductSold temp = new ProductSold();
+				temp.setItemCode(saleHistory.getString(1));
+				temp.setProductName(saleHistory.getString(2));
+				temp.setTotalSalesMade(saleHistory.getInt(3));
+				temp.setAmount(saleHistory.getInt(4));
+				temp.setTimestamp(saleHistory.getTimestamp(5));
+			
+				ProductSold.productsSold.add(temp);
+			
+		}
+		
+		dataInitialization.close();
+		this.logger.info("Statement closed Successfully" );
+		
+	} catch (SQLException e) {
+		this.logger.severe("Unable to create Statement Object");
+		e.printStackTrace();
+	}
 	}
 }
+
+	

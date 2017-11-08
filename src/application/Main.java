@@ -1,6 +1,5 @@
 package application;
 
-
 import javafx.application.Application;
 import javafx.geometry.Side;
 import javafx.stage.Stage;
@@ -15,9 +14,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			
+			System.out.println();
 			Pane root = new Pane();
-			root.setPrefSize(950, 600);
+			root.setPrefSize(1260, 600);
 			
 			
 			UserInterface ui = new UserInterface();
@@ -27,7 +26,7 @@ public class Main extends Application {
 			ui.initializeSalesHistory();
 			
 			MenuBar menubar = new MenuBar();
-			menubar.setPrefWidth(950);
+			menubar.setPrefWidth(1260);
 
 			Menu file = new Menu("File");
 			Menu user = new Menu("User");
@@ -36,14 +35,14 @@ public class Main extends Application {
 		
 			
 			TabPane tabpane = new TabPane();
-			tabpane.setSide(Side.BOTTOM);
+			tabpane.setSide(Side.TOP);
 			tabpane.setPrefHeight(680);
-			tabpane.setPrefWidth(950);
-			tabpane.relocate(0, 25.5);
+			tabpane.setPrefWidth(1260);
+			tabpane.relocate(0, 18.5);
 			tabpane.getTabs().addAll(ui.currentProductListTab, ui.productSoldTab, ui.productPurchaseTab);
 			root.getChildren().add(tabpane);
 			root.getChildren().add(menubar);
-			Scene scene = new Scene(root,950,700);
+			Scene scene = new Scene(root,1260,700);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);

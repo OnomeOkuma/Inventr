@@ -6,6 +6,7 @@ package transactionDialogs;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.logging.Logger;
 
 import application.UserInterface;
@@ -39,21 +40,28 @@ public class NewPurchaseHistory implements Runnable{
 			//logging
 			this.logger.info("Statement created Successfully");
 			
-			updateStatement.executeUpdate(
+			try {
+					updateStatement.executeUpdate(
 					
-								"INSERT INTO PRODUCT_PURCHASED VALUES(" + "\'" + this.record.getItemCode() + "\'"
-								+ "," + "\'" + this.record.getProductName() + "\'" + "," + this.record.getTotalPurchasesMade()
-								+ "," + this.record.getAmount() + "," + "\'" + this.record.getTimestamp().toString() + "\'"
-								+ ");"
+											"INSERT INTO PRODUCT_PURCHASED VALUES(" + "\'" + this.record.getItemCode() + "\'"
+											+ "," + "\'" + this.record.getProductName() + "\'" + "," + this.record.getTotalPurchasesMadeInt()
+											+ "," + this.record.getAmountInt() + "," + "\'" + this.record.getTimestampValue() + "\'"
+											+ ");"
 					
 						);
 			
-			updateStatement.executeUpdate(
-									"INSERT INTO CURRENT_PRODUCT_LIST VALUES(" + "\'" + this.newProduct.getItemCode() + "\'"
-									+ "," + "\'" + this.newProduct.getProductName() + "\'" + "," + "\'" + this.newProduct.getDescription()
-									+ "\'"  + "," + this.newProduct.getPrice() + "," + this.newProduct.getNumberAvailable()
-									+ ");"
-						);
+				
+					updateStatement.executeUpdate(
+											"INSERT INTO CURRENT_PRODUCT_LIST VALUES(" + "\'" + this.newProduct.getItemCode() + "\'"
+											+ "," + "\'" + this.newProduct.getProductName() + "\'" + "," + "\'" + this.newProduct.getDescription()
+											+ "\'"  + "," + this.newProduct.getPriceInt() + "," + this.newProduct.getNumberAvailableInt()
+											+ ");"
+								);
+					
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 			
 			ResultSet currentProductList = updateStatement.executeQuery(
