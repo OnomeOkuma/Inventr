@@ -6,7 +6,6 @@ package transactionDialogs;
 
 import java.sql.Timestamp;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Locale;
@@ -16,6 +15,8 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -25,14 +26,15 @@ import models.CurrentProductList;
 import models.ProductSold;
 
 public class SaleDialog extends Stage{
-		
+		private boolean invalidAmount;
+	
 		public SaleDialog(){
 			
 				// Construct a new Stage object
 				super();
 				
 				// Construct a new ComboBox object, populate it's items with the names of the current products 
-				// available and attach a label object to it.
+				// available.
 				ComboBox<String> combobox = new ComboBox<String>();
 				ObservableList<String> currentItems = FXCollections.observableArrayList();
 				Iterator<CurrentProductList> iterator = CurrentProductList.productAvailable.iterator();
@@ -42,19 +44,21 @@ public class SaleDialog extends Stage{
 				combobox.setItems(currentItems);
 				combobox.setEditable(false);
 				
+				
+				// Create a TextField object for displaying the cost of items.
 				TextField costField = new TextField();
 				costField.setPromptText("Total Cost");
 				costField.setAlignment(Pos.CENTER_LEFT);
 				costField.setMaxWidth(150);
 				costField.setEditable(false);
 				
-				// Create a TextField Object that takes in the number of items purchased
-				// and attach a label object to it.
+				// Create a TextField Object that takes in the number of items purchased.
 				TextField itemAmountField = new TextField();
 				itemAmountField.setPromptText("Item Amount");
 				itemAmountField.setAlignment(Pos.CENTER_LEFT);
 				itemAmountField.setMaxWidth(150);
 				
+				// Prevents fraud by causing the field to have a default value of 0 when a new item is selected.
 				combobox.setOnAction(e -> {
 					itemAmountField.setText("0");
 				});
@@ -62,27 +66,41 @@ public class SaleDialog extends Stage{
 				
 				itemAmountField.setOnKeyReleased(e -> {
 					try{
+						// Try parsing the amount entered in the field
 						Integer itemAmount = Integer.parseInt(itemAmountField.getText());
 						Iterator<CurrentProductList> iterator2 = CurrentProductList.productAvailable.iterator();
+						
+						// Looking for the CurrentProductList object with the specified item code.
 						while(iterator2.hasNext()){
 							CurrentProductList temp = iterator2.next();
 							
-							// Checks if the Item Code selected is the same with the given CurrentProductList.
+							// Checks if the item code selected is the same with the given CurrentProductList object.
 							if(temp.getItemCode().equals(combobox.getValue())){
 								
-								Integer temp2;
-								try {
-									
-									temp2 = itemAmount * temp.getPriceInt();
-									NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("en", "NG"));  
-									costField.setText(format.format(temp2));
-							
-								}catch (ParseException e1) {
-
-									e1.printStackTrace();
-								}
+							try{
+								// Try parsing data from the string format stored in the CurrentProductList object.
 								
-								break;
+									// Checks if the item amount entered is greater than the stock available.
+									if(itemAmount <= temp.getNumberAvailableInt()){
+										int	temp2 = itemAmount * temp.getPriceInt();
+										NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("en", "NG"));  
+										costField.setText(format.format(temp2));
+										
+										// This property tells the button to process a transaction or not.
+										this.invalidAmount = false;
+										
+									}else{
+										// Show an alert to inform the user of the situation.
+										Alert alert = new Alert(AlertType.ERROR, "Number greater than Stock amount");
+										alert.showAndWait();
+										this.invalidAmount = true;
+									}
+									
+							}catch (Exception e1) {
+
+								e1.printStackTrace();
+								
+							}
 							}
 						}
 						
@@ -99,9 +117,12 @@ public class SaleDialog extends Stage{
 				// Create a button object to trigger processing of the transaction.
 				Button button = new Button("Process Transaction");
 				button.setOnAction(e -> {
+					
+					// Create the ProductSold object to be processed.
 					ProductSold productSold = new ProductSold();
 					productSold.setItemCode(combobox.getValue());
 					
+					// Searching for the CurrentProductList object with the specified item code. 
 					Iterator<CurrentProductList> iterator2 = CurrentProductList.productAvailable.iterator();
 					while(iterator2.hasNext()){
 						CurrentProductList temp = iterator2.next();
@@ -110,12 +131,16 @@ public class SaleDialog extends Stage{
 						}
 					}
 					
+					// Note: On interaction, a value is set on the itemAmountField.
+					// it has a default value of 0 on selecting an item on the combobox.
 					Integer number = Integer.parseInt(itemAmountField.getText());
-					if(number > 0){
+					
+					// Checks if the item amount entered is greater than 0 and not above stock levels.
+					if(number > 0 && !this.invalidAmount){
 						productSold.setTotalSalesMade(number);
 						productSold.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
 						NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("en", "NG"));
-						try {
+						try{
 							
 							productSold.setAmount(format.parse(costField.getText()).intValue());
 							UpdateSaleHistory update = new UpdateSaleHistory(productSold);
@@ -123,11 +148,12 @@ public class SaleDialog extends Stage{
 							thread.start();
 							this.close();
 							
-						} catch (Exception e1) {
+						}catch (Exception e1) {
 							e1.printStackTrace();
 						}
 					}
 				});
+				
 				// Attach the components to the layout.
 				layout.getChildren().addAll(combobox, itemAmountField, costField, button);
 				

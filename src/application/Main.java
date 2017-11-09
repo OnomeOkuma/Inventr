@@ -38,7 +38,7 @@ public class Main extends Application {
 			tabpane.setSide(Side.TOP);
 			tabpane.setPrefHeight(680);
 			tabpane.setPrefWidth(1260);
-			tabpane.relocate(0, 18.5);
+			tabpane.relocate(0, 21.5);
 			tabpane.getTabs().addAll(ui.currentProductListTab, ui.productSoldTab, ui.productPurchaseTab);
 			root.getChildren().add(tabpane);
 			root.getChildren().add(menubar);

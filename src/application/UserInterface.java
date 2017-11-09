@@ -3,10 +3,12 @@ package application;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -185,7 +187,44 @@ public class UserInterface {
 		timeCol.setEditable(false);
 		timeCol.setCellValueFactory(new PropertyValueFactory<ProductPurchased, String>("timestamp"));
 		this.productPurchasedView.getColumns().addAll(idCol, nameCol, purchasesMadeCol,purchaseAmountCol, timeCol );
-		this.productPurchaseTab.setContent(this.productPurchasedView);
+
+		BorderPane layout = new BorderPane(this.productPurchasedView);
+		DatePicker datepicker = new DatePicker(LocalDate.now());
+		datepicker.setOnAction(e -> {
+			try {
+				ProductPurchased.productPurchased.clear();
+				LocalDate temp = datepicker.getValue();
+				
+				Statement dataInitialization = UserInterface.dataaccess.createStatement();
+				ResultSet purchaseHistory = dataInitialization.executeQuery(
+						
+						"SELECT * FROM PRODUCT_PURCHASED "
+						+ "WHERE TIMESTAMP <= " + "\'" + temp + "\'"
+	
+						);
+				
+				while(purchaseHistory.next()){
+					
+					ProductPurchased temp2 = new ProductPurchased();
+					temp2.setItemCode(purchaseHistory.getString(1));
+					temp2.setProductName(purchaseHistory.getString(2));
+					temp2.setTotalPurchasesMade(purchaseHistory.getInt(3));
+					temp2.setAmount(purchaseHistory.getInt(4));
+					temp2.setTimestamp(purchaseHistory.getTimestamp(5));
+					
+					ProductPurchased.productPurchased.add(temp2);
+					
+				}
+				
+				dataInitialization.close();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		layout.setTop(datepicker);
+		
+		this.productPurchaseTab.setContent(layout);
 		
 		try {
 			Statement dataInitialization = UserInterface.dataaccess.createStatement();
@@ -250,7 +289,44 @@ public class UserInterface {
 		timeCol.setEditable(false);
 		timeCol.setCellValueFactory(new PropertyValueFactory<ProductSold, String>("timestamp"));
 		this.productSoldView.getColumns().addAll(idCol, nameCol, salesMadeCol,saleAmountCol, timeCol );
-		this.productSoldTab.setContent(this.productSoldView);
+		
+		BorderPane layout = new BorderPane(this.productSoldView);
+		DatePicker datepicker = new DatePicker(LocalDate.now());
+		datepicker.setOnAction(e -> {
+			try {
+				ProductSold.productsSold.clear();
+				LocalDate temp = datepicker.getValue();
+				
+				Statement dataInitialization = UserInterface.dataaccess.createStatement();
+				ResultSet saleHistory = dataInitialization.executeQuery(
+						
+						"SELECT * FROM PRODUCT_SOLD "
+						+ "WHERE TIMESTAMP <= " + "\'" + temp + "\'"
+	
+						);
+				
+				while(saleHistory.next()){
+					
+					ProductSold temp2 = new ProductSold();
+					temp2.setItemCode(saleHistory.getString(1));
+					temp2.setProductName(saleHistory.getString(2));
+					temp2.setTotalSalesMade(saleHistory.getInt(3));
+					temp2.setAmount(saleHistory.getInt(4));
+					temp2.setTimestamp(saleHistory.getTimestamp(5));
+					
+					ProductSold.productsSold.add(temp2);
+					
+				}
+				
+				dataInitialization.close();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		layout.setTop(datepicker);
+		this.productSoldTab.setContent(layout);
+		
 		try {
 			Statement dataInitialization = UserInterface.dataaccess.createStatement();
 			//logging
