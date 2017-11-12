@@ -1,10 +1,19 @@
+/* This class creates the UI components and sets the state and functionality of
+ *  all the UI components needed by the application
+ */
 package application;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.logging.Logger;
+
+import org.h2.tools.Csv;
+import org.h2.tools.SimpleResultSet;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
@@ -15,6 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.CurrentProductList;
 import models.ProductPurchased;
@@ -37,25 +47,36 @@ public class UserInterface {
 	 
 	public UserInterface(){
 		this.logger = Logger.getLogger("Initialization Logger");
+		
+		//Initialize the Current Product Tab. 
 		this.currentProductListTab = new Tab();
 		this.currentProductListTab.setText("Product List");
 		this.currentProductListTab.setClosable(false);
+		
+		// Initilize the Static property of CurrentProductList.
 		CurrentProductList.productAvailable = FXCollections.synchronizedObservableList(FXCollections.observableArrayList());
 		this.productAvailableView = new TableView<CurrentProductList> (CurrentProductList.productAvailable);
 		
 		// Initialize the SessionFactory.
 		dataaccess = new DataAccess();
 		
+		
+		//Initialize the Purchase History Tab. 
 		this.productPurchaseTab = new Tab();
 		this.productPurchaseTab.setText(" Purchases ");
 		this.productPurchaseTab.setClosable(false);
+		
+		// Initilize the Static property of ProductPurchased.
 		ProductPurchased.productPurchased = FXCollections.synchronizedObservableList(FXCollections.observableArrayList());
 		this.productPurchasedView = new TableView<ProductPurchased>(ProductPurchased.productPurchased);
 		
 		
+		//Initialize the Sale History Tab.
 		this.productSoldTab = new Tab();
 		this.productSoldTab.setText(" Sales ");
 		this.productSoldTab.setClosable(false);
+		
+		// Initilize the Static property of ProductSold.
 		ProductSold.productsSold = FXCollections.synchronizedObservableList(FXCollections.observableArrayList());
 		this.productSoldView = new TableView<ProductSold>(ProductSold.productsSold);
 		
@@ -65,13 +86,12 @@ public class UserInterface {
 	@SuppressWarnings("unchecked")
 	public void initializeProductList(){
 		
-		// Creates the Columns needed
+		// Create the Columns needed
 		TableColumn<CurrentProductList,String> idCol = new TableColumn<CurrentProductList,String>();
 		idCol.setText("ID");
 		idCol.setEditable(false);
 		idCol.setCellValueFactory(new PropertyValueFactory<CurrentProductList, String>("itemCode"));
 
-		
 		TableColumn<CurrentProductList,String> nameCol = new TableColumn<CurrentProductList,String>();
 		nameCol.setText("Name");
 		nameCol.setEditable(false);
@@ -94,6 +114,8 @@ public class UserInterface {
 		
 		this.productAvailableView.getColumns().setAll(idCol, nameCol, descriptionCol, priceCol, availableCol);
 		
+		
+		// Create the buttons for triggering application behaviour.
 		Button sales = new Button("Sell");
 		sales.setPrefSize(80, 20);
 		sales.relocate(300, 25);
@@ -111,15 +133,19 @@ public class UserInterface {
 			purchase.initOwner(UserInterface.stage);
 			purchase.show();
 		});
+		
+		// Add buttons to a layout pane.
 		Pane buttonLayout = new Pane();
 		buttonLayout.setPrefSize(950, 70);
 		buttonLayout.getChildren().addAll(sales, purchases);
 		
+		// Add button layout and Product Available table to another layout pane.
 		BorderPane layout = new BorderPane(this.productAvailableView);
 		layout.setBottom(buttonLayout);
-		
+
 		this.currentProductListTab.setContent(layout);
 		
+		// Try and obtain the most recent data from the database.
 		try {
 			
 			Statement dataInitialization = UserInterface.dataaccess.createStatement();
@@ -161,7 +187,7 @@ public class UserInterface {
 	@SuppressWarnings("unchecked")
 	public void initializePurchaseHistory(){
 		
-		// Creates the Columns needed
+		// Create the Columns needed
 		TableColumn<ProductPurchased,String> idCol = new TableColumn<ProductPurchased,String>();
 		idCol.setText("ID");
 		idCol.setEditable(false);
@@ -189,8 +215,53 @@ public class UserInterface {
 		this.productPurchasedView.getColumns().addAll(idCol, nameCol, purchasesMadeCol,purchaseAmountCol, timeCol );
 
 		BorderPane layout = new BorderPane(this.productPurchasedView);
+		
+		// Create layout for button.
+		Pane buttonLayout = new Pane();
+		buttonLayout.setPrefSize(950, 70);
+		
+		Button button = new Button("Export CSV");
+		button.relocate(580, 20);
+		
+		// On action, show a FileChooser dialog, get its result and use it to export
+		// the current contents of the table to a .csv file.
+		button.setOnAction(e -> {
+			FileChooser filechooser = new FileChooser();
+			filechooser.setTitle("Export CSV");
+			File file = filechooser.showSaveDialog(UserInterface.stage);
+			if (file != null && !ProductPurchased.productPurchased.isEmpty()){
+				
+				SimpleResultSet resultset = new SimpleResultSet();
+				resultset.addColumn("Item Code", Types.VARCHAR, 30, 0);
+				resultset.addColumn("Item Name", Types.VARCHAR, 40, 0);
+				resultset.addColumn("Total Purchases Made", Types.VARCHAR, 40, 0);
+				resultset.addColumn("Amount", Types.VARCHAR, 40, 0);
+				resultset.addColumn("Timestamp", Types.VARCHAR, 40, 0);
+				
+				Iterator<ProductPurchased> iterator = ProductPurchased.productPurchased.iterator();
+				while(iterator.hasNext()){
+					ProductPurchased temp = iterator.next();
+					resultset.addRow(temp.getItemCode(), temp.getProductName(), temp.getTotalPurchasesMade(),
+									temp.getAmount(), temp.getTimestamp());
+				}
+				
+				Csv csv = new Csv();
+				
+				try {
+					
+					csv.write(file.getPath() + ".csv" , resultset, null);
+					
+				} catch (Exception e1) {
+			
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		// Create a DatePicker object for filtering History according to Timestamp.
 		DatePicker datepicker = new DatePicker(LocalDate.now());
 		datepicker.setOnAction(e -> {
+			
 			try {
 				ProductPurchased.productPurchased.clear();
 				LocalDate temp = datepicker.getValue();
@@ -222,10 +293,14 @@ public class UserInterface {
 				e1.printStackTrace();
 			}
 		});
+		
+		buttonLayout.getChildren().add(button);
 		layout.setTop(datepicker);
+		layout.setBottom(buttonLayout);
 		
 		this.productPurchaseTab.setContent(layout);
 		
+		// Try and obtain the most recent data from the database.
 		try {
 			Statement dataInitialization = UserInterface.dataaccess.createStatement();
 			//logging
@@ -263,7 +338,7 @@ public class UserInterface {
 	@SuppressWarnings("unchecked")
 	public void initializeSalesHistory(){
 		
-		// Creates the Columns needed
+		// Create the Columns needed
 		TableColumn<ProductSold,String> idCol = new TableColumn<ProductSold,String>();
 		idCol.setText("ID");
 		idCol.setEditable(false);
@@ -291,6 +366,50 @@ public class UserInterface {
 		this.productSoldView.getColumns().addAll(idCol, nameCol, salesMadeCol,saleAmountCol, timeCol );
 		
 		BorderPane layout = new BorderPane(this.productSoldView);
+		
+		// Create layout for button.
+		Pane buttonLayout = new Pane();
+		buttonLayout.setPrefSize(950, 70);
+		
+		Button button = new Button("Export CSV");
+		button.relocate(580, 20);
+		
+		// On action, show a FileChooser dialog, get its result and use it to export
+		// the current contents of the table to a .csv file.
+		button.setOnAction(e -> {
+			FileChooser filechooser = new FileChooser();
+			filechooser.setTitle("Export CSV");
+			File file = filechooser.showSaveDialog(UserInterface.stage);
+			if (file != null && !ProductSold.productsSold.isEmpty()){
+				
+				SimpleResultSet resultset = new SimpleResultSet();
+				resultset.addColumn("Item Code", Types.VARCHAR, 30, 0);
+				resultset.addColumn("Item Name", Types.VARCHAR, 40, 0);
+				resultset.addColumn("Total Sales Made", Types.VARCHAR, 40, 0);
+				resultset.addColumn("Amount", Types.VARCHAR, 40, 0);
+				resultset.addColumn("Timestamp", Types.VARCHAR, 40, 0);
+				
+				Iterator<ProductSold> iterator = ProductSold.productsSold.iterator();
+				while(iterator.hasNext()){
+					ProductSold temp = iterator.next();
+					resultset.addRow(temp.getItemCode(), temp.getProductName(), temp.getTotalSalesMade(),
+									temp.getAmount(), temp.getTimestamp());
+				}
+				
+				Csv csv = new Csv();
+				
+				try {
+					
+					csv.write(file.getPath() + ".csv" , resultset, null);
+					
+				} catch (Exception e1) {
+			
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		// Create a DatePicker object for filtering History according to Timestamp.
 		DatePicker datepicker = new DatePicker(LocalDate.now());
 		datepicker.setOnAction(e -> {
 			try {
@@ -320,13 +439,17 @@ public class UserInterface {
 				
 				dataInitialization.close();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
+			
 				e1.printStackTrace();
 			}
 		});
+		
+		buttonLayout.getChildren().add(button);
 		layout.setTop(datepicker);
+		layout.setBottom(buttonLayout);
 		this.productSoldTab.setContent(layout);
 		
+		// Try and obtain the most recent data from the database.
 		try {
 			Statement dataInitialization = UserInterface.dataaccess.createStatement();
 			//logging
@@ -351,13 +474,13 @@ public class UserInterface {
 			
 		}
 		
-		dataInitialization.close();
-		this.logger.info("Statement closed Successfully" );
+			dataInitialization.close();
+			this.logger.info("Statement closed Successfully" );
 		
-	} catch (SQLException e) {
-		this.logger.severe("Unable to create Statement Object");
-		e.printStackTrace();
-	}
+		} catch (SQLException e) {
+			this.logger.severe("Unable to create Statement Object");
+			e.printStackTrace();
+		}
 	}
 }
 

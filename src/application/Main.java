@@ -14,7 +14,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			System.out.println();
 			Pane root = new Pane();
 			root.setPrefSize(1260, 600);
 			
@@ -46,6 +45,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);
+			primaryStage.setTitle("Inventr");
 			primaryStage.show();
 			
 			
