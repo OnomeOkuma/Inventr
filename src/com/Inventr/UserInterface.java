@@ -1,7 +1,7 @@
 /* This class creates the UI components and sets the state and functionality of
- *  all the UI components needed by the application
+ *  all the UI components needed by the com.Inventr
  */
-package application;
+package com.Inventr;
 
 import java.io.File;
 import java.sql.ResultSet;
@@ -15,6 +15,13 @@ import java.util.logging.Logger;
 import org.h2.tools.Csv;
 import org.h2.tools.SimpleResultSet;
 
+import com.Inventr.models.CurrentProductList;
+import com.Inventr.models.ProductPurchased;
+import com.Inventr.models.ProductSold;
+import com.Inventr.transactionDialogs.PurchaseDialog;
+import com.Inventr.transactionDialogs.SaleDialog;
+import com.Inventr.util.DataAccess;
+
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -26,12 +33,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import models.CurrentProductList;
-import models.ProductPurchased;
-import models.ProductSold;
-import transactionDialogs.PurchaseDialog;
-import transactionDialogs.SaleDialog;
-import util.DataAccess;
 
 public class UserInterface {
 	 Tab productSoldTab;
@@ -115,7 +116,7 @@ public class UserInterface {
 		this.productAvailableView.getColumns().setAll(idCol, nameCol, descriptionCol, priceCol, availableCol);
 		
 		
-		// Create the buttons for triggering application behaviour.
+		// Create the buttons for triggering com.Inventr behaviour.
 		Button sales = new Button("Sell");
 		sales.setPrefSize(80, 20);
 		sales.relocate(300, 25);

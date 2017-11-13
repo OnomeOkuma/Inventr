@@ -1,4 +1,4 @@
-package models;
+package com.Inventr.models;
 
 import java.text.NumberFormat;
 import java.text.ParseException;

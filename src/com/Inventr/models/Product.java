@@ -1,11 +1,11 @@
 /*
  * 
- * This is the super class for all Entity models in this project. It defines the 
- * properties common to all models.
+ * This is the super class for all Entity com.Inventr.models in this project. It defines the 
+ * properties common to all com.Inventr.models.
  * 
  */
 
-package models;
+package com.Inventr.models;
 
 public class Product {
 	

@@ -1,8 +1,8 @@
 /*
- * This class models the sales history of the organization. 
+ * This class com.Inventr.models the purchase history of the organization. 
  */
 
-package models;
+package com.Inventr.models;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -13,20 +13,20 @@ import java.util.Locale;
 
 import javafx.collections.ObservableList;
 
-public class ProductSold extends Product{
+public class ProductPurchased extends Product  {
 	
-	// Properties unique to sales history.
+	// Properties unique to purchase history.
 	private String amount;
 	private String timestamp;
-	private String totalSalesMade;
+	private String totalPurchasesMade;
 	
 	// ObservableList used by the associated Table.
-	public static  ObservableList<ProductSold> productsSold;
+	public static ObservableList<ProductPurchased> productPurchased;
 	private NumberFormat numberFormat;
 	private NumberFormat currencyFormat;
 	private DateFormat dateFormat;
-	
-	public ProductSold(){
+
+	public ProductPurchased(){
 		this.numberFormat = NumberFormat.getNumberInstance(new Locale("en", "NG"));
 		this.currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en" , "NG"));
 		this.dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
@@ -38,8 +38,10 @@ public class ProductSold extends Product{
 	}
 	
 	public int getAmountInt() throws ParseException{
+		
 		Number value = this.currencyFormat.parse(this.amount);
 		return value.intValue();
+		
 	}
 	
 	public String getTimestamp() {
@@ -51,31 +53,32 @@ public class ProductSold extends Product{
 		return Timestamp.from(value.toInstant());
 	}
 	
-	public String getTotalSalesMade(){
-		return this.totalSalesMade;
+	public String getTotalPurchasesMade() {
+		return this.totalPurchasesMade;
 	}
 	
-	public int getTotalSalesMadeInt() throws ParseException{
-		Number value = this.numberFormat.parse(this.totalSalesMade);
+	public int getTotalPurchasesMadeInt() throws ParseException{
+		Number value = this.numberFormat.parse(this.totalPurchasesMade);
 		return value.intValue();
 	}
 	
 	public void setAmount(int amount) {
 		this.amount = this.currencyFormat.format(amount);
 	}
-	
+
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = this.dateFormat.format(timestamp);
 	}
-	
-	public void setTotalSalesMade(int totalSalesMade) {
-		this.totalSalesMade = this.numberFormat.format(totalSalesMade);
+
+	public void setTotalPurchasesMade(int totalPurchasesMade) {
+		this.totalPurchasesMade = this.numberFormat.format(totalPurchasesMade);
 	}
+	
 	@Override
 	public String toString(){
 		return (this.getItemCode() +
 				"\n" + this.getProductName()
-				+ "\n" + this.getTotalSalesMade()
+				+ "\n" + this.getTotalPurchasesMade()
 				+ "\n" + this.getAmount()
 				+ "\n" + this.getTimestamp());
 	}

@@ -1,8 +1,11 @@
-package transactionDialogs;
+package com.Inventr.transactionDialogs;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Iterator;
+
+import com.Inventr.models.CurrentProductList;
+import com.Inventr.models.ProductPurchased;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,8 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import models.CurrentProductList;
-import models.ProductPurchased;
 
 public class ExistingPurchaseDialog extends Stage{
 		

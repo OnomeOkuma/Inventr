@@ -1,4 +1,4 @@
-package transactionDialogs;
+package com.Inventr.transactionDialogs;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,9 +6,9 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.util.logging.Logger;
 
-import application.UserInterface;
-import models.CurrentProductList;
-import models.ProductSold;
+import com.Inventr.UserInterface;
+import com.Inventr.models.CurrentProductList;
+import com.Inventr.models.ProductSold;
 
 public class UpdateSaleHistory implements Runnable{
 	private ProductSold record;

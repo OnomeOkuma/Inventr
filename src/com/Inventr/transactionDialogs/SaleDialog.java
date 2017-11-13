@@ -2,13 +2,16 @@
  * This is an extension of the Stage Class for the custom Dialog needed to get input concerning the sale
  * being made. 
  */
-package transactionDialogs;
+package com.Inventr.transactionDialogs;
 
 import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Locale;
+
+import com.Inventr.models.CurrentProductList;
+import com.Inventr.models.ProductSold;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,8 +25,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import models.CurrentProductList;
-import models.ProductSold;
 
 public class SaleDialog extends Stage{
 		private boolean invalidAmount;

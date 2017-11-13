@@ -2,7 +2,7 @@
  * This class initialises and hold the SessionFactory used to create Sessions.
  * This was done because of how expensive it is, resources-wise, to create a SessionFactory.  
  */
-package util;
+package com.Inventr.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

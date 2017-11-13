@@ -1,16 +1,20 @@
-package application;
+package com.Inventr;
+
+import com.Inventr.transactionDialogs.CreateUserDialog;
+import com.Inventr.transactionDialogs.LogInDialog;
 
 import javafx.application.Application;
 import javafx.geometry.Side;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
 
 
 public class Main extends Application {
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -24,23 +28,33 @@ public class Main extends Application {
 			ui.initializePurchaseHistory();
 			ui.initializeSalesHistory();
 			
-			MenuBar menubar = new MenuBar();
-			menubar.setPrefWidth(1260);
+			MenuButton menuButton = new MenuButton("User");
+			menuButton.setPrefWidth(100);
 
-			Menu file = new Menu("File");
-			Menu user = new Menu("User");
-			Menu help = new Menu("Help");
-			menubar.getMenus().addAll(user, file, help);
+			MenuItem logIn = new MenuItem("Log In");
+			logIn.setOnAction(e -> {
+				LogInDialog log = new LogInDialog();
+				log.initOwner(primaryStage);
+				log.show();
+			});
+			
+			MenuItem createUser = new MenuItem("Create User");
+			createUser.setOnAction(e -> {
+				CreateUserDialog create = new CreateUserDialog();
+				create.initOwner(primaryStage);
+				create.show();
+			});
+			menuButton.getItems().addAll(logIn, createUser);
 		
 			
 			TabPane tabpane = new TabPane();
 			tabpane.setSide(Side.TOP);
 			tabpane.setPrefHeight(680);
 			tabpane.setPrefWidth(1260);
-			tabpane.relocate(0, 21.5);
+			tabpane.relocate(0, 26);
 			tabpane.getTabs().addAll(ui.currentProductListTab, ui.productSoldTab, ui.productPurchaseTab);
 			root.getChildren().add(tabpane);
-			root.getChildren().add(menubar);
+			root.getChildren().add(menuButton);
 			Scene scene = new Scene(root,1260,700);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setResizable(false);

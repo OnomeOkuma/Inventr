@@ -2,10 +2,13 @@
  * This is an extension of the Stage Class for the custom Dialog needed to get input concerning the purchase
  * being made. 
  */
-package transactionDialogs;
+package com.Inventr.transactionDialogs;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
+import com.Inventr.models.CurrentProductList;
+import com.Inventr.models.ProductPurchased;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,8 +20,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import models.CurrentProductList;
-import models.ProductPurchased;
 
 public class NewPurchaseDialog extends Stage{
 	private Scene scene;
@@ -107,7 +108,7 @@ public class NewPurchaseDialog extends Stage{
 					newProduct.setNumberAvailable(numberOfItems);
 					newProduct.setPrice(price);
 					
-					// Run this action on a separate thread to free up the JavaFX application thread.
+					// Run this action on a separate thread to free up the JavaFX com.Inventr thread.
 					NewPurchaseHistory temp = new NewPurchaseHistory(recordPurchase, newProduct);
 					Thread thread = new Thread(temp);
 					thread.start();
