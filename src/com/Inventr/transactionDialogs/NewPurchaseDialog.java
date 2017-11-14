@@ -11,7 +11,6 @@ import com.Inventr.models.CurrentProductList;
 import com.Inventr.models.ProductPurchased;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -22,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class NewPurchaseDialog extends Stage{
-	private Scene scene;
 	
 	public NewPurchaseDialog(){
 		// Construct a new Stage object
@@ -31,39 +29,28 @@ public class NewPurchaseDialog extends Stage{
 		// Construction and configuration of the input fields needed by this class.
 		TextField itemCodeField = new TextField();
 		itemCodeField.setPromptText("Item Code");
-		itemCodeField.setAlignment(Pos.CENTER_LEFT);
-		itemCodeField.setMaxWidth(150);
 		
 		TextField nameField = new TextField();
 		nameField.setPromptText("Enter Name");
-		nameField.setAlignment(Pos.CENTER_LEFT);
-		nameField.setMaxWidth(150);
 		
 		TextArea descripField = new TextArea();
 		descripField.setPromptText("Enter Description");
 		descripField.setWrapText(true);
-		descripField.setMaxSize(250, 150);
 		
 		
 		TextField amountSpentField = new TextField();
 		amountSpentField.setPromptText("Amount Spent");
-		amountSpentField.setAlignment(Pos.CENTER_LEFT);
-		amountSpentField.setMaxWidth(150);
 		
 		TextField priceField = new TextField();
 		priceField.setPromptText("Selling Price");
-		priceField.setAlignment(Pos.CENTER_LEFT);
-		priceField.setMaxWidth(150);;
 		
 		TextField itemAmountField = new TextField();
 		itemAmountField.setPromptText("Number of Items");
-		itemAmountField.setAlignment(Pos.CENTER_LEFT);
-		itemAmountField.setMaxWidth(150);
 		
 		
 		// Set the layout of the Scene object to house all these components
 		VBox layout = new VBox(8.5);
-		layout.setPadding(new Insets(15, 0, 0, 20));
+		layout.setPadding(new Insets(20, 20, 20, 20));
 		
 		// Create a button object to trigger processing of the transaction.
 		Button button = new Button("Process Transaction");
@@ -125,11 +112,17 @@ public class NewPurchaseDialog extends Stage{
 		layout.getChildren().addAll( itemCodeField, nameField, descripField, amountSpentField, priceField,itemAmountField, button );
 		
 		// Create a Scene Object with the layout above 
-		this.scene = new Scene(layout, 400, 400); 
+		Scene scene = new Scene(layout, 400, 400); 
 		
 		// Add it to the Stage Object.
-		super.setScene(this.scene);
+		super.setScene(scene);
 		super.setTitle("Process New Purchase");
+		super.setOnShown(e -> {
+			PurchaseDialog.isOpen = true;
+		});
+		super.setOnHidden(e -> {
+			PurchaseDialog.isOpen = false;
+		});
 		super.setResizable(false);
 	}
 }

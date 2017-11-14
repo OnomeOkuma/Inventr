@@ -10,7 +10,6 @@ import com.Inventr.models.ProductPurchased;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -21,7 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ExistingPurchaseDialog extends Stage{
-		
+	
 	public ExistingPurchaseDialog(){
 			
 			super();
@@ -40,19 +39,15 @@ public class ExistingPurchaseDialog extends Stage{
 			
 			TextField costOfItemsField = new TextField();
 			costOfItemsField.setPromptText("Cost of Purchase");
-			costOfItemsField.setAlignment(Pos.CENTER_LEFT);
-			costOfItemsField.setMaxWidth(150);
 			
 		
 			TextField numOfItemsField = new TextField();
 			numOfItemsField.setPromptText("Number of Items");
-			numOfItemsField.setAlignment(Pos.CENTER_LEFT);
-			numOfItemsField.setMaxWidth(150);
+		
 			
 			
 			VBox layout = new VBox(10);
-			layout.setAlignment(Pos.BASELINE_LEFT);
-			layout.setPadding(new Insets(0, 0, 0, 10));
+			layout.setPadding(new Insets(10, 30, 30, 10));
 			
 			Button button = new Button("Process Transaction");
 			button.setOnAction( e -> {
@@ -91,9 +86,14 @@ public class ExistingPurchaseDialog extends Stage{
 			layout.getChildren().addAll(combobox, numOfItemsField, costOfItemsField, button);
 			
 			Scene scene = new Scene(layout, 300, 180); 
-			
 			super.setScene(scene);
 			super.setTitle("Process Purchase");
+			super.setOnShown(e -> {
+				PurchaseDialog.isOpen = true;
+			});
+			super.setOnHidden(e -> {
+				PurchaseDialog.isOpen = false;
+			});
 			super.setResizable(false);
 	}
 }

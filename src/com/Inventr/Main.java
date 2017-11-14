@@ -2,6 +2,7 @@ package com.Inventr;
 
 import com.Inventr.transactionDialogs.CreateUserDialog;
 import com.Inventr.transactionDialogs.LogInDialog;
+import com.Inventr.transactionDialogs.PurchaseDialog;
 
 import javafx.application.Application;
 import javafx.geometry.Side;
@@ -33,25 +34,34 @@ public class Main extends Application {
 
 			MenuItem logIn = new MenuItem("Log In");
 			logIn.setOnAction(e -> {
-				LogInDialog log = new LogInDialog();
-				log.initOwner(primaryStage);
-				log.show();
+				if(!LogInDialog.isOpen && !CreateUserDialog.isOpen && !PurchaseDialog.isOpen){
+					LogInDialog log = new LogInDialog();
+					log.initOwner(primaryStage);
+					log.show();
+				}
 			});
 			
 			MenuItem createUser = new MenuItem("Create User");
 			createUser.setOnAction(e -> {
-				CreateUserDialog create = new CreateUserDialog();
-				create.initOwner(primaryStage);
-				create.show();
+				if(!LogInDialog.isOpen && !CreateUserDialog.isOpen && !PurchaseDialog.isOpen){
+					CreateUserDialog create = new CreateUserDialog();
+					create.initOwner(primaryStage);
+					create.show();
+				}
 			});
-			menuButton.getItems().addAll(logIn, createUser);
+			
+			MenuItem logOut = new MenuItem("Log Out");
+			logOut.setOnAction(e -> {
+				UserInterface.loggedIn = false;
+			});
+			menuButton.getItems().addAll(logIn, createUser, logOut);
 		
 			
 			TabPane tabpane = new TabPane();
 			tabpane.setSide(Side.TOP);
 			tabpane.setPrefHeight(680);
 			tabpane.setPrefWidth(1260);
-			tabpane.relocate(0, 26);
+			tabpane.relocate(0, 25.8);
 			tabpane.getTabs().addAll(ui.currentProductListTab, ui.productSoldTab, ui.productPurchaseTab);
 			root.getChildren().add(tabpane);
 			root.getChildren().add(menuButton);

@@ -16,7 +16,6 @@ import com.Inventr.models.ProductSold;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -49,15 +48,11 @@ public class SaleDialog extends Stage{
 				// Create a TextField object for displaying the cost of items.
 				TextField costField = new TextField();
 				costField.setPromptText("Total Cost");
-				costField.setAlignment(Pos.CENTER_LEFT);
-				costField.setMaxWidth(150);
 				costField.setEditable(false);
 				
 				// Create a TextField Object that takes in the number of items purchased.
 				TextField itemAmountField = new TextField();
 				itemAmountField.setPromptText("Item Amount");
-				itemAmountField.setAlignment(Pos.CENTER_LEFT);
-				itemAmountField.setMaxWidth(150);
 				
 				// Prevents fraud by causing the field to have a default value of 0 when a new item is selected.
 				combobox.setOnAction(e -> {
@@ -112,8 +107,7 @@ public class SaleDialog extends Stage{
 				
 				// Set the layout of the Scene object to house all these components
 				VBox layout = new VBox(10);
-				layout.setAlignment(Pos.BASELINE_LEFT);
-				layout.setPadding(new Insets(0, 0, 0, 10));
+				layout.setPadding(new Insets(10, 20, 20, 10));
 				
 				// Create a button object to trigger processing of the transaction.
 				Button button = new Button("Process Transaction");

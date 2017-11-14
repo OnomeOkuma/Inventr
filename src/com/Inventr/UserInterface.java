@@ -18,6 +18,8 @@ import org.h2.tools.SimpleResultSet;
 import com.Inventr.models.CurrentProductList;
 import com.Inventr.models.ProductPurchased;
 import com.Inventr.models.ProductSold;
+import com.Inventr.transactionDialogs.CreateUserDialog;
+import com.Inventr.transactionDialogs.LogInDialog;
 import com.Inventr.transactionDialogs.PurchaseDialog;
 import com.Inventr.transactionDialogs.SaleDialog;
 import com.Inventr.util.DataAccess;
@@ -44,6 +46,7 @@ public class UserInterface {
 	 private TableView<ProductSold> productSoldView;
 	 public static DataAccess dataaccess;
 	 public static Stage stage;
+	 public static boolean loggedIn;
 	 private Logger logger;
 	 
 	public UserInterface(){
@@ -61,6 +64,7 @@ public class UserInterface {
 		// Initialize the SessionFactory.
 		dataaccess = new DataAccess();
 		
+		loggedIn = false;
 		
 		//Initialize the Purchase History Tab. 
 		this.productPurchaseTab = new Tab();
@@ -130,9 +134,11 @@ public class UserInterface {
 		purchases.setPrefSize(80, 20);
 		purchases.relocate(750, 25);
 		purchases.setOnAction(e -> {
-			PurchaseDialog purchase = new PurchaseDialog();
-			purchase.initOwner(UserInterface.stage);
-			purchase.show();
+			if(!LogInDialog.isOpen && !CreateUserDialog.isOpen && !PurchaseDialog.isOpen){
+				PurchaseDialog purchase = new PurchaseDialog();
+				purchase.initOwner(UserInterface.stage);
+				purchase.show();
+			}
 		});
 		
 		// Add buttons to a layout pane.

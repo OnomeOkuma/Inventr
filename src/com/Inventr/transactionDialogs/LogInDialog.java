@@ -1,7 +1,14 @@
 package com.Inventr.transactionDialogs;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import com.Inventr.UserInterface;
+
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,6 +29,44 @@ public class LogInDialog extends Stage{
 			password.setPromptText("Password");
 			
 			Button logIn = new Button("Log In");
+			logIn.setOnAction(e -> {
+				try {
+					Statement statement = UserInterface.dataaccess.createStatement();
+					ResultSet result = statement.executeQuery(
+							
+							"SELECT password FROM users WHERE username = " + "\'" + username.getText() + "\' ;" 
+							
+							);
+					
+					if(result.next()){
+						
+						String passwordvalue = result.getString(1);
+						if (passwordvalue.equals(password.getText())){
+							UserInterface.loggedIn = true;
+							Alert alert = new Alert(AlertType.CONFIRMATION, "Log In Successful");
+							alert.show();
+							
+						}else{
+							
+							Alert alert = new Alert(AlertType.INFORMATION, "Log In Failed");
+							alert.show();
+							
+						}
+						
+					}else{
+						
+						Alert alert = new Alert(AlertType.INFORMATION, "Log In Failed");
+						alert.show();
+						
+					}
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+					
+				}
+				
+				this.close();
+			});
 			
 			VBox layout = new VBox(10);
 			layout.setPadding(new Insets(30, 30, 0, 30));
@@ -32,6 +77,13 @@ public class LogInDialog extends Stage{
 			super.setScene(scene);
 			super.setTitle("Log In");
 			super.setResizable(false);
+			super.setOnShown(e -> {
+				LogInDialog.isOpen = true;
+			});
+			super.setOnHidden(e -> {
+				LogInDialog.isOpen = false;
+			});
+			LogInDialog.isOpen = true;
 	}
 
 }

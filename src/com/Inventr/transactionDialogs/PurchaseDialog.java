@@ -9,22 +9,27 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class PurchaseDialog extends Stage{
+	public static boolean isOpen = false;
 	
 	public PurchaseDialog(){
 		super();
 		Button existingProduct = new Button("Existing Product");
 		existingProduct.setOnAction(e -> {
-			ExistingPurchaseDialog existingPurchase = new ExistingPurchaseDialog();
-			existingPurchase.initOwner(UserInterface.stage);
-			existingPurchase.show();
-			this.close();
+			if(!LogInDialog.isOpen && !CreateUserDialog.isOpen && !PurchaseDialog.isOpen){
+					ExistingPurchaseDialog existingPurchase = new ExistingPurchaseDialog();
+					existingPurchase.initOwner(UserInterface.stage);
+					existingPurchase.show();
+					this.close();
+			}
 		});
 		Button newProduct = new Button("New Product");
 		newProduct.setOnAction(e -> {
-			NewPurchaseDialog newPurchase = new NewPurchaseDialog();
-			newPurchase.initOwner(UserInterface.stage);
-			newPurchase.show();
-			this.close();
+			if(!LogInDialog.isOpen && !CreateUserDialog.isOpen && !PurchaseDialog.isOpen){
+					NewPurchaseDialog newPurchase = new NewPurchaseDialog();
+					newPurchase.initOwner(UserInterface.stage);
+					newPurchase.show();
+					this.close();
+			}
 		});
 		
 		HBox layout = new HBox(100, newProduct, existingProduct);

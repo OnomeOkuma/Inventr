@@ -37,6 +37,7 @@ public class DataAccess {
 					+ ", ITEM_NAME VARCHAR(40), DESCRIPTION VARCHAR(1000), PRICE INTEGER, NUMBER_AVAILABLE INTEGER"
 					+ ");");
 			
+			statement.execute("CREATE TABLE IF NOT EXISTS users (username VARCHAR(40), password VARCHAR(40));");
 			statement.close();
 			
 		} catch (SQLException e) {
