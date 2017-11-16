@@ -4,7 +4,9 @@ import com.Inventr.UserInterface;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -25,10 +27,15 @@ public class PurchaseDialog extends Stage{
 		Button newProduct = new Button("New Product");
 		newProduct.setOnAction(e -> {
 			if(!LogInDialog.isOpen && !CreateUserDialog.isOpen && !PurchaseDialog.isOpen){
+				if(UserInterface.loggedIn){
 					NewPurchaseDialog newPurchase = new NewPurchaseDialog();
 					newPurchase.initOwner(UserInterface.stage);
 					newPurchase.show();
 					this.close();
+				}else{
+					Alert alert = new Alert(AlertType.INFORMATION, "Log In First");
+					alert.show();
+				}
 			}
 		});
 		

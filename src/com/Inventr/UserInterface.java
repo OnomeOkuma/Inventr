@@ -25,11 +25,16 @@ import com.Inventr.transactionDialogs.SaleDialog;
 import com.Inventr.util.DataAccess;
 
 import javafx.collections.FXCollections;
+import javafx.geometry.Side;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -130,6 +135,35 @@ public class UserInterface {
 			sale.show();
 		});
 		
+		MenuButton editList = new MenuButton("Edit Inventory");
+		editList.setPrefSize(128, 20);
+		editList.relocate(500, 25);
+		editList.setPopupSide(Side.TOP);
+		
+		MenuItem priceEdit = new MenuItem("Price");
+		priceEdit.setOnAction(e -> {
+			if(UserInterface.loggedIn){
+				// Temporary.
+				Alert alert = new Alert(AlertType.INFORMATION, "You can edit Price");
+				alert.show();
+			}else{
+				Alert alert = new Alert(AlertType.INFORMATION, "Log In First");
+				alert.show();
+			}
+		});
+		MenuItem descriptionEdit = new MenuItem("Description");
+		descriptionEdit.setOnAction(e -> {
+			if(UserInterface.loggedIn){
+				// Temporary.
+				Alert alert = new Alert(AlertType.INFORMATION, "You can edit Description");
+				alert.show();
+			}else{
+				Alert alert = new Alert(AlertType.INFORMATION, "Log In First");
+				alert.show();
+			}
+		});
+		editList.getItems().addAll(priceEdit, descriptionEdit);
+		
 		Button purchases = new Button("Buy");
 		purchases.setPrefSize(80, 20);
 		purchases.relocate(750, 25);
@@ -144,7 +178,7 @@ public class UserInterface {
 		// Add buttons to a layout pane.
 		Pane buttonLayout = new Pane();
 		buttonLayout.setPrefSize(950, 70);
-		buttonLayout.getChildren().addAll(sales, purchases);
+		buttonLayout.getChildren().addAll(sales, editList, purchases);
 		
 		// Add button layout and Product Available table to another layout pane.
 		BorderPane layout = new BorderPane(this.productAvailableView);
