@@ -130,9 +130,11 @@ public class UserInterface {
 		sales.setPrefSize(80, 20);
 		sales.relocate(300, 25);
 		sales.setOnAction(e -> {
-			SaleDialog sale = new SaleDialog();
-			sale.initOwner(UserInterface.stage);
-			sale.show();
+			if(!LogInDialog.isOpen && !CreateUserDialog.isOpen && !PurchaseDialog.isOpen){
+				SaleDialog sale = new SaleDialog();
+				sale.initOwner(UserInterface.stage);
+				sale.show();
+			}
 		});
 		
 		MenuButton editList = new MenuButton("Edit Inventory");

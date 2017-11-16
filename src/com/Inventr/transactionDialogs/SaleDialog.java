@@ -159,5 +159,11 @@ public class SaleDialog extends Stage{
 				super.setScene(scene);
 				super.setTitle("Process Sale");
 				super.setResizable(false);
+				super.setOnShown(e -> {
+					PurchaseDialog.isOpen = true;
+				});
+				super.setOnHidden(e -> {
+					PurchaseDialog.isOpen = false;
+				});
 		}
 }

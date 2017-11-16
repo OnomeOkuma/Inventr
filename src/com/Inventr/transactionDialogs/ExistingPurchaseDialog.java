@@ -88,12 +88,6 @@ public class ExistingPurchaseDialog extends Stage{
 			Scene scene = new Scene(layout, 300, 180); 
 			super.setScene(scene);
 			super.setTitle("Process Purchase");
-			super.setOnShown(e -> {
-				PurchaseDialog.isOpen = true;
-			});
-			super.setOnHidden(e -> {
-				PurchaseDialog.isOpen = false;
-			});
 			super.setResizable(false);
 	}
 }

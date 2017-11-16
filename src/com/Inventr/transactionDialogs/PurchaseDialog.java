@@ -17,26 +17,25 @@ public class PurchaseDialog extends Stage{
 		super();
 		Button existingProduct = new Button("Existing Product");
 		existingProduct.setOnAction(e -> {
-			if(!LogInDialog.isOpen && !CreateUserDialog.isOpen && !PurchaseDialog.isOpen){
+
 					ExistingPurchaseDialog existingPurchase = new ExistingPurchaseDialog();
 					existingPurchase.initOwner(UserInterface.stage);
 					existingPurchase.show();
-					this.close();
-			}
+					
 		});
 		Button newProduct = new Button("New Product");
 		newProduct.setOnAction(e -> {
-			if(!LogInDialog.isOpen && !CreateUserDialog.isOpen && !PurchaseDialog.isOpen){
+
 				if(UserInterface.loggedIn){
 					NewPurchaseDialog newPurchase = new NewPurchaseDialog();
 					newPurchase.initOwner(UserInterface.stage);
 					newPurchase.show();
-					this.close();
+
 				}else{
 					Alert alert = new Alert(AlertType.INFORMATION, "Log In First");
 					alert.show();
 				}
-			}
+
 		});
 		
 		HBox layout = new HBox(100, newProduct, existingProduct);
@@ -47,7 +46,12 @@ public class PurchaseDialog extends Stage{
 		this.setScene(scene);
 		this.setResizable(false);
 		
-		
+		super.setOnShown(e -> {
+			PurchaseDialog.isOpen = true;
+		});
+		super.setOnHidden(e -> {
+			PurchaseDialog.isOpen = false;
+		});
 	}
 
 }
