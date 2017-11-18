@@ -2,7 +2,7 @@
  * This is an extension of the Stage Class for the custom Dialog needed to get input concerning the purchase
  * being made. 
  */
-package com.Inventr.transactionDialogs;
+package com.Inventr.dialogs;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

@@ -15,13 +15,15 @@ import java.util.logging.Logger;
 import org.h2.tools.Csv;
 import org.h2.tools.SimpleResultSet;
 
+import com.Inventr.dialogs.CreateUserDialog;
+import com.Inventr.dialogs.EditDescDialog;
+import com.Inventr.dialogs.EditPriceDialog;
+import com.Inventr.dialogs.LogInDialog;
+import com.Inventr.dialogs.PurchaseDialog;
+import com.Inventr.dialogs.SaleDialog;
 import com.Inventr.models.CurrentProductList;
 import com.Inventr.models.ProductPurchased;
 import com.Inventr.models.ProductSold;
-import com.Inventr.transactionDialogs.CreateUserDialog;
-import com.Inventr.transactionDialogs.LogInDialog;
-import com.Inventr.transactionDialogs.PurchaseDialog;
-import com.Inventr.transactionDialogs.SaleDialog;
 import com.Inventr.util.DataAccess;
 
 import javafx.collections.FXCollections;
@@ -145,9 +147,11 @@ public class UserInterface {
 		MenuItem priceEdit = new MenuItem("Price");
 		priceEdit.setOnAction(e -> {
 			if(UserInterface.loggedIn){
-				// Temporary.
-				Alert alert = new Alert(AlertType.INFORMATION, "You can edit Price");
-				alert.show();
+				
+				EditPriceDialog editPrice = new EditPriceDialog();
+				editPrice.initOwner(stage);
+				editPrice.showAndWait();
+				
 			}else{
 				Alert alert = new Alert(AlertType.INFORMATION, "Log In First");
 				alert.show();
@@ -156,9 +160,11 @@ public class UserInterface {
 		MenuItem descriptionEdit = new MenuItem("Description");
 		descriptionEdit.setOnAction(e -> {
 			if(UserInterface.loggedIn){
-				// Temporary.
-				Alert alert = new Alert(AlertType.INFORMATION, "You can edit Description");
-				alert.show();
+				
+				EditDescDialog editDescription = new EditDescDialog();
+				editDescription.initOwner(stage);
+				editDescription.showAndWait();
+				
 			}else{
 				Alert alert = new Alert(AlertType.INFORMATION, "Log In First");
 				alert.show();

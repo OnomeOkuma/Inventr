@@ -3,9 +3,9 @@ package com.Inventr;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import com.Inventr.transactionDialogs.CreateUserDialog;
-import com.Inventr.transactionDialogs.LogInDialog;
-import com.Inventr.transactionDialogs.PurchaseDialog;
+import com.Inventr.dialogs.CreateUserDialog;
+import com.Inventr.dialogs.LogInDialog;
+import com.Inventr.dialogs.PurchaseDialog;
 
 import javafx.application.Application;
 import javafx.geometry.Side;
@@ -67,14 +67,15 @@ public class Main extends Application {
 			
 			MenuItem logOut = new MenuItem("Log Out");
 			logOut.setOnAction(e -> {
-				if(UserInterface.loggedIn){
-					UserInterface.loggedIn = false;
-					Alert alert = new Alert(AlertType.INFORMATION, "Logged Out");
-					alert.show();
-				}
-				else{
-					Alert alert = new Alert(AlertType.INFORMATION, "Log In First");
-					alert.show();
+				if(!LogInDialog.isOpen && !CreateUserDialog.isOpen && !PurchaseDialog.isOpen){
+						if(UserInterface.loggedIn){
+							UserInterface.loggedIn = false;
+							Alert alert = new Alert(AlertType.INFORMATION, "Logged Out");
+							alert.show();
+						}else{
+							Alert alert = new Alert(AlertType.INFORMATION, "Log In First");
+							alert.show();
+						}
 				}
 			});
 			menuButton.getItems().addAll(logIn, createUser, logOut);

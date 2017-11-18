@@ -1,7 +1,7 @@
 /*
  * A Runnable class for updating the purchase History in addition to the Current product list information 
  */
-package com.Inventr.transactionDialogs;
+package com.Inventr.dialogs;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

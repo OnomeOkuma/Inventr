@@ -2,7 +2,7 @@
  * This is an extension of the Stage Class for the custom Dialog needed to get input concerning the sale
  * being made. 
  */
-package com.Inventr.transactionDialogs;
+package com.Inventr.dialogs;
 
 import java.sql.Timestamp;
 import java.text.NumberFormat;
@@ -96,7 +96,7 @@ public class SaleDialog extends Stage{
 
 								e1.printStackTrace();
 								
-							}
+								}
 							}
 						}
 						

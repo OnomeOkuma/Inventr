@@ -1,4 +1,4 @@
-package com.Inventr.transactionDialogs;
+package com.Inventr.dialogs;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

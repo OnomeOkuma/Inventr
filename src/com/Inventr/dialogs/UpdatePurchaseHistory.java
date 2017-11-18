@@ -1,4 +1,4 @@
-package com.Inventr.transactionDialogs;
+package com.Inventr.dialogs;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

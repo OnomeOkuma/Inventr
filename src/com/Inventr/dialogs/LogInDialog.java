@@ -1,4 +1,4 @@
-package com.Inventr.transactionDialogs;
+package com.Inventr.dialogs;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -30,7 +30,14 @@ public class LogInDialog extends Stage{
 			
 			Button logIn = new Button("Log In");
 			logIn.setOnAction(e -> {
-				try {
+				if(username.getText().equals("")){
+					Alert alert = new Alert(AlertType.ERROR, "Enter Username");
+					alert.showAndWait();
+				}else if(password.getText().equals("")){
+					Alert alert = new Alert(AlertType.ERROR, "Enter Password");
+					alert.showAndWait();
+				}else{ 
+					try {
 					Statement statement = UserInterface.dataaccess.createStatement();
 					ResultSet result = statement.executeQuery(
 							
@@ -51,21 +58,22 @@ public class LogInDialog extends Stage{
 							Alert alert = new Alert(AlertType.INFORMATION, "Log In Failed");
 							alert.show();
 							
+							}
+						
+						}else{
+						
+							Alert alert = new Alert(AlertType.INFORMATION, "Log In Failed");
+							alert.show();
+						
 						}
-						
-					}else{
-						
-						Alert alert = new Alert(AlertType.INFORMATION, "Log In Failed");
-						alert.show();
-						
-					}
-				} catch (Exception e1) {
+					} catch (Exception e1) {
 
-					e1.printStackTrace();
+						e1.printStackTrace();
 					
-				}
+					}
 				
-				this.close();
+					this.close();
+				}
 			});
 			
 			VBox layout = new VBox(10);
