@@ -43,7 +43,7 @@ public class SaleDialog extends Stage{
 				}
 				combobox.setItems(currentItems);
 				combobox.setEditable(false);
-				
+				combobox.setPromptText("Item Code");
 				
 				// Create a TextField object for displaying the cost of items.
 				TextField costField = new TextField();

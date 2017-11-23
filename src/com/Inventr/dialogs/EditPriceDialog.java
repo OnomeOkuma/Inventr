@@ -32,6 +32,8 @@ public class EditPriceDialog extends Stage{
 				combobox_list.add(temp.getItemCode());
 			}
 			combobox.setItems(combobox_list);
+			combobox.setPromptText("Item Code");
+			combobox.setEditable(false);
 			
 			TextField priceField = new TextField();
 			priceField.setPromptText("New Price");

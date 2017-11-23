@@ -29,9 +29,12 @@ public class EditDescDialog extends Stage{
 				combobox_list.add(temp.getItemCode());
 			}
 			combobox.setItems(combobox_list);
+			combobox.setPromptText("Item Code");
+			combobox.setEditable(false);
 			
 			TextArea descriptionField = new TextArea();
 			descriptionField.setPromptText("New Description");
+			descriptionField.setWrapText(true);
 
 			Button editDescription = new Button("Edit Description");
 			editDescription.setOnAction(e -> {
@@ -70,8 +73,9 @@ public class EditDescDialog extends Stage{
 						
 						this.close();
 			}catch (Exception e1) {
-							// TODO Auto-generated catch block
+	
 							e1.printStackTrace();
+							
 						}
 					
 			});

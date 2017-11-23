@@ -35,7 +35,7 @@ public class ExistingPurchaseDialog extends Stage{
 			}
 			combobox.setItems(currentItems);
 			combobox.setEditable(false);
-			
+			combobox.setPromptText("Item Code");
 			
 			TextField costOfItemsField = new TextField();
 			costOfItemsField.setPromptText("Cost of Purchase");
